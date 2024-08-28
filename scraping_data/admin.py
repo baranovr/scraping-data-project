@@ -1,5 +1,5 @@
 from django.contrib import admin
-from sraping_data.models import Vacancy, Technology, HistoricalData
+from scraping_data.models import Vacancy, Technology, HistoricalData
 
 
 @admin.register(Vacancy)
