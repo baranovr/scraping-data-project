@@ -1,0 +1,498 @@
+{#<!DOCTYPE html>#}
+{#<html lang="en">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <title>Tech Market Analysis</title>#}
+{#</head>#}
+{#<body>#}
+{#    <h1>Welcome to Tech Market Analysis</h1>#}
+{#    <nav>#}
+{#        <ul>#}
+{#            <li><a href="{% url 'scraping_data:vacancy_list' %}">Vacancies</a></li>#}
+{#            <li><a href="{% url 'scraping_data:technology_stats' %}">Technology Stats</a></li>#}
+{#            <li><a href="{% url 'scraping_data:historical_data' %}">Historical Data</a></li>#}
+{#            <li><a href="{% url 'scraping_data:download_csv' %}">Download CSV</a></li>#}
+{#        </ul>#}
+{#    </nav>#}
+{#</body>#}
+{#</html>#}
+
+
+{% extends 'layouts/base.html' %}
+
+{% block title %} Author {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} blog-author bg-gray-100 {% endblock body_class %}
+
+{% block content %}
+
+  {% include "includes/navigation-light.html" %}
+
+  <section class="py-sm-7 py-5 position-relative">
+    <div class="container">
+      <div class="row bg-white">
+        <div class="col-12 mx-auto">
+          <div class="row py-lg-7 py-5">
+            <div class="col-lg-3 col-md-5 position-relative my-auto">
+              <img class="img border-radius-lg max-width-200 w-100 position-relative z-index-2" src="static/assets/img/python.png">
+            </div>
+            <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="mb-0">Welcome to Tech Market Analysis</h4>
+              </div>
+              <p class="text-lg mb-0">
+                Stay ahead of the curve with our comprehensive Tech Market Analysis platform. 
+                  This service provides you with up-to-date insights into the most demanded 
+                  technologies in the tech job market, specifically tailored for Python developers. 
+                  Whether you're a beginner or an experienced professional, understanding which 
+                  technologies are currently in demand is crucial for advancing your career. <br>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <h3 class="mb-5">Features of Our Service:</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="javascript:;">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="static/assets/img/vacansy_listing.jpg">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">Vacancy Listings</a>
+              </h5>
+              <p>
+                Explore the latest Python developer job openings, 
+                  complete with details on required technologies, 
+                  company, location, and experience level.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="javascript:;">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="static/assets/img/tech_stats.png">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">Technology Statistics</a>
+              </h5>
+              <p>
+                Get a clear view of the most mentioned technologies across job postings.
+                  Our service aggregates and analyzes data to highlight the tools and 
+                  frameworks that are most sought after by employers.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="javascript:;">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="static/assets/img/hist_data.jpg">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">Historical Data</a>
+              </h5>
+              <p>
+                Track trends over time. 
+                  See how the popularity of different technologies has evolved, 
+                  helping you identify emerging trends and shifts in the job market.
+              </p>
+            </div>
+          </div>
+        </div>
+          <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="javascript:;">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="static/assets/img/reports.jpeg">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">Downloadable Reports</a>
+              </h5>
+              <p>
+                Export the data you need in CSV format for deeper analysis. 
+                  Whether you're a researcher or just keen on data, our downloadable 
+                  reports give you the flexibility to explore the information further.
+              </p>
+            </div>
+          </div>
+        </div>
+          <hr>
+          <div>
+              <h6>
+                  ⚠️ Please note that when scraping, information is collected only from available information, 
+                  without prior registration on the services!⚠️
+              </h6>
+          </div>
+          <hr>
+          
+           <!-- New block for Djinni scraping -->
+        <div class="row mt-5">
+        <div class="col-lg-12">
+          <div class="card card-plain bg-white" style="border: 1px solid black;">
+            <div class="card-body">
+              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Djinni.co</h5>
+              <p>Get the most recent job market data directly from Djinni.co. Click the button below to start scraping data on Python developer positions.</p>
+              <button id="scrape-djinni" class="btn btn-dark">Scrape Djinni</button>
+
+              <div id="scrape-results" class="mt-4" style="display:none;">
+                <h6>Scraping Results:</h6>
+                  <div class="row mt-3">
+                    <div class="col-lg-12">
+                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
+                    </div>
+                  </div>
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                  <div class="row mt-5">
+                    <div class="col-lg-6">
+                        <canvas id="popularityChart"></canvas>
+                    </div>
+                    <div class="col-lg-6">
+                        <canvas id="salaryChart"></canvas>
+                    </div>
+                </div>
+                <div id="loading" style="display:none;">
+                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
+                  <p>Loading data, please wait...</p>
+                </div>
+                <div id="result-content"></div>
+              </div>
+            </div>
+          </div>
+            
+            
+        <div class="row mt-5">
+        <div class="col-lg-12">
+          <div class="card card-plain bg-white" style="border: 1px solid #66d432;">
+            <div class="card-body">
+              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Dou.ua</h5>
+              <p>Get the most recent job market data directly from jobs.dou.ua. Click the button below to start scraping data on Python developer positions.</p>
+              <button id="scrape-dou" class="btn btn-success">Scrape Dou</button>
+              <div id="scrape-results" class="mt-4" style="display:none;">
+                <h6>Scraping Results:</h6>
+                  <div class="row mt-3">
+                    <div class="col-lg-12">
+                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
+                    </div>
+                  </div>
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                  <div class="row mt-5">
+                    <div class="col-lg-6">
+                        <canvas id="popularityChart"></canvas>
+                    </div>
+                    <div class="col-lg-6">
+                        <canvas id="salaryChart"></canvas>
+                    </div>
+                </div>
+                <div id="loading" style="display:none;">
+                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
+                  <p>Loading data, please wait...</p>
+                </div>
+                <div id="result-content"></div>
+              </div>
+            </div>
+          </div>
+            
+            
+            
+            <div class="row mt-5">
+        <div class="col-lg-12">
+          <div class="card card-plain bg-white" style="border: 1px solid #d60808;">
+            <div class="card-body">
+              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Robota.ua</h5>
+              <p>Get the most recent job market data directly from robota.ua. Click the button below to start scraping data on Python developer positions.</p>
+              <button id="scrape-robota" class="btn btn-warning">Scrape Robota</button>
+              <div id="scrape-results" class="mt-4" style="display:none;">
+                <h6>Scraping Results:</h6>
+                  <div class="row mt-3">
+                    <div class="col-lg-12">
+                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
+                    </div>
+                  </div>
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                  <div class="row mt-5">
+                    <div class="col-lg-6">
+                        <canvas id="popularityChart"></canvas>
+                    </div>
+                    <div class="col-lg-6">
+                        <canvas id="salaryChart"></canvas>
+                    </div>
+                </div>
+                <div id="loading" style="display:none;">
+                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
+                  <p>Loading data, please wait...</p>
+                </div>
+                <div id="result-content"></div>
+              </div>
+            </div>
+          </div>
+            
+            
+            
+            <div class="row mt-5">
+        <div class="col-lg-12">
+          <div class="card card-plain bg-white" style="border: 1px solid #0dcaf0;">
+            <div class="card-body">
+              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from LinkedIn.com</h5>
+              <p>Get the most recent job market data directly from linkedin.com. Click the button below to start scraping data on Python developer positions.</p>
+              <button id="scrape-linkedin" class="btn btn-info">Scrape LinkedIn</button>
+              <div id="scrape-results" class="mt-4" style="display:none;">
+                <h6>Scraping Results:</h6>
+                  <div class="row mt-3">
+                    <div class="col-lg-12">
+                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
+                    </div>
+                  </div>
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                  <div class="row mt-5">
+                    <div class="col-lg-6">
+                        <canvas id="popularityChart"></canvas>
+                    </div>
+                    <div class="col-lg-6">
+                        <canvas id="salaryChart"></canvas>
+                    </div>
+                </div>
+                <div id="loading" style="display:none;">
+                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
+                  <p>Loading data, please wait...</p>
+                </div>
+                <div id="result-content"></div>
+              </div>
+            </div>
+          </div>
+            
+            
+            <button id="goToTopBtn" 
+                          style="display:none; 
+                          position:fixed; 
+                          bottom:20px; 
+                          right:20px; 
+                          background-color:#007bff; 
+                          color:white; 
+                          border:none; 
+                          padding:10px 15px; 
+                          border-radius:5px;">
+                      Go to Top
+                  </button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+    
+  <script src="static/assets/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+    
+    <script type="text/javascript">
+    function createCharts(data) {
+        const techCounts = {};
+        const salaryData = {};
+
+        data.forEach(job => {
+            job.technologies.forEach(tech => {
+                if (techCounts[tech]) {
+                    techCounts[tech]++;
+                } else {
+                    techCounts[tech] = 1;
+                }
+            });
+
+            const experience = job["experience(years)"];
+            const salary = parseInt(job.salary);
+            if (experience && !isNaN(salary)) {
+                if (salaryData[experience]) {
+                    salaryData[experience].push(salary);
+                } else {
+                    salaryData[experience] = [salary];
+                }
+            }
+        });
+
+        const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+        const techLabels = topTechs.map(item => item[0]);
+        const techValues = topTechs.map(item => item[1]);
+
+        const experienceLabels = Object.keys(salaryData);
+        const salaryValues = experienceLabels.map(exp => {
+            const salaries = salaryData[exp];
+            return salaries.reduce((a, b) => a + b, 0) / salaries.length;
+        });
+        
+        const ctx1 = document.getElementById('popularityChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: techLabels,
+                datasets: [{
+                    label: 'Number of Mentions',
+                    data: techValues,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        
+        const ctx2 = document.getElementById('salaryChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: experienceLabels,
+                datasets: [{
+                    label: 'Average Salary ($)',
+                    data: salaryValues,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function saveToCsv(data) {
+        let csvContent = "data:text/csv;charset=utf-8,";
+        csvContent += "Title,Company,Location,Experience,Salary,Technologies,Source\n";
+
+        data.forEach(job => {
+            const technologies = job.technologies.join('; ');
+            const row = `${job.title},${job.company},${job.location},${job["experience(years)"] || ''},${job.salary || ''},${technologies},${job.source}`;
+            csvContent += row + "\n";
+        });
+
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", "djinni.csv");
+        document.body.appendChild(link);
+
+        link.click();
+        document.body.removeChild(link);
+    }
+
+    document.getElementById('scrape-djinni').addEventListener('click', function () {
+    document.getElementById('scrape-results').style.display = 'block';
+    document.getElementById('loading').style.display = 'block';
+
+    fetch('{% url "scraping_data:scrape_djinni" %}', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('loading').style.display = 'none';
+
+        let resultContent = document.getElementById('result-content');
+        const limit = 0; // Modify this as per your needs
+        const limitedData = data.slice(0, limit);
+        resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+
+        if (data.length > limit) {
+            // Create "View Results" button
+            const viewAllBtn = document.createElement('button');
+            viewAllBtn.textContent = `View Results (${data.length - limit})`;
+            viewAllBtn.className = 'btn btn-primary mt-3';
+            
+            // Create "Hide Results" button
+            const hideResultsBtn = document.createElement('button');
+            hideResultsBtn.textContent = 'Hide Results';
+            hideResultsBtn.className = 'btn btn-secondary mt-3';
+            hideResultsBtn.style.display = 'none';
+
+            // Show full results on clicking "View Results"
+            viewAllBtn.onclick = function () {
+                resultContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                this.style.display = 'none';
+                hideResultsBtn.style.display = 'inline-block';
+            };
+
+            // Hide full results and revert to limited view on clicking "Hide Results"
+            hideResultsBtn.onclick = function () {
+                resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+                this.style.display = 'none';
+                viewAllBtn.style.display = 'inline-block';
+            };
+
+            // Append buttons to result content
+            resultContent.appendChild(viewAllBtn);
+            resultContent.appendChild(hideResultsBtn);
+        }
+
+        createCharts(data);
+
+        document.getElementById('saveCsv').style.display = 'inline-block';
+        document.getElementById('saveCsv').addEventListener('click', function() {
+            saveToCsv(data);
+        });
+
+    })
+    .catch(error => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('result-content').innerHTML = '<p style="color:red;">Error occurred while scraping data.</p>';
+    });
+});
+
+    
+    window.onscroll = function() {
+        const goToTopBtn = document.getElementById('goToTopBtn');
+        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+            goToTopBtn.style.display = 'block';
+        } else {
+            goToTopBtn.style.display = 'none';
+        }
+    };
+    
+    document.getElementById('goToTopBtn').addEventListener('click', function() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+    });
+</script>
+
+{% endblock javascripts %}
