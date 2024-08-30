@@ -1,7 +1,14 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Vacancy, Technology, HistoricalData
+from django.http import HttpResponse, JsonResponse
+from scraping_data.models import Vacancy, Technology, HistoricalData
 import csv
+from scrapy.crawler import CrawlerProcess
+from scrapy.utils.project import get_project_settings
+from scrape.djinni_scraper.djinni_scraper.spiders.djinni import DjinniSpider
+from scrapy.settings import Settings
+from scrapy import signals
+from scrapy.signalmanager import dispatcher
+import json
 
 
 def index(request):
@@ -48,3 +55,18 @@ def download_csv(request):
 def historical_data(request):
     history = HistoricalData.objects.all().order_by("date", "technology__name")
     return render(request, "historical_data.html", {"history": history})
+
+
+def scrape_djinni(request):
+    results = []
+
+    def crawler_results(signal, sender, item, response, spider):
+        results.append(item)
+
+    dispatcher.connect(crawler_results, signal=signals.item_scraped)
+
+    process = CrawlerProcess(get_project_settings())
+    process.crawl(DjinniSpider)
+    process.start()
+
+    return JsonResponse(results, safe=False)
