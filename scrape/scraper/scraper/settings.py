@@ -1,4 +1,4 @@
-# Scrapy settings for djinni_scraper project
+# Scrapy settings for scraper project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,48 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "djinni_scraper"
+BOT_NAME = "scraper"
 
-SPIDER_MODULES = ["djinni_scraper.spiders"]
-NEWSPIDER_MODULE = "djinni_scraper.spiders"
+SPIDER_MODULES = ["scraper.spiders"]
+NEWSPIDER_MODULE = "scraper.spiders"
+
+USER_AGENT_LIST = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0'
+    ]
+
+TECHNOLOGIES = [
+        "Django", "Flask", "FastAPI", "RESTful APIs", "Pyramid", "Tornado", "Bottle", "CherryPy",
+        "PostgreSQL", "MySQL", "SQLite", "MongoDB", "Redis", "Cassandra", "Oracle DB",
+        "Elasticsearch", "DynamoDB",
+        "AWS", "EC2", "S3", "RDS", "Lambda", "Google Cloud Platform", "Microsoft Azure", "Heroku",
+        "DigitalOcean",
+        "Docker", "Kubernetes", "OpenShift", "Docker Compose", "Helm",
+        "Jenkins", "GitLab CI", "Travis CI", "CircleCI", "GitHub Actions", "Bamboo",
+        "Git", "Mercurial", "SVN",
+        "REST", "GraphQL", "SOAP", "gRPC", "WebSockets",
+        "PyTest", "Unittest", "Nose", "Selenium", "Hypothesis", "Robot Framework",
+        "Ansible", "Terraform", "Puppet", "Chef",
+        "asyncio", "Twisted", "Celery", "aiohttp", "gevent",
+        "TensorFlow", "PyTorch", "Keras", "Scikit-learn", "Pandas", "NumPy", "Matplotlib",
+        "SciPy", "XGBoost", "LightGBM", "OpenCV",
+        "Apache Hadoop", "Apache Spark", "Apache Kafka", "Dask", "Airflow", "Luigi",
+        "Matplotlib", "Seaborn", "Plotly", "Bokeh", "Dash",
+        "JavaScript", "TypeScript", "React", "Angular", "Vue.js", "HTML", "CSS", "Bootstrap",
+        "jQuery",
+        "Requests", "urllib", "Scrapy", "Beautiful Soup", "Twisted", "Paramiko",
+        "Tkinter", "PyQt", "Kivy", "wxPython", "PyGTK",
+        "Make", "CMake", "SCons", "pip", "virtualenv", "Poetry", "Conda",
+        "ELK Stack (Elasticsearch, Logstash, Kibana)", "Prometheus", "Grafana", "Sentry",
+        "Vagrant", "VirtualBox", "Packer", "AWS CloudFormation",
+        "SSL/TLS", "OAuth", "JWT", "bcrypt", "cryptography",
+        "Pygame", "Panda3D", "PyOpenGL", "Cocos2d"
+]
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "djinni_scraper (+http://www.yourdomain.com)"
+#USER_AGENT = "scraper (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -45,13 +79,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "djinni_scraper.middlewares.DjinniScraperSpiderMiddleware": 543,
+#    "scraper.middlewares.DjinniScraperSpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "djinni_scraper.middlewares.DjinniScraperDownloaderMiddleware": 543,
+#    "scraper.middlewares.DjinniScraperDownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -63,7 +97,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "djinni_scraper.pipelines.DjinniScraperPipeline": 300,
+#    "scraper.pipelines.DjinniScraperPipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)

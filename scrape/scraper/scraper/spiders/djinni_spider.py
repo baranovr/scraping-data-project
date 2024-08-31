@@ -1,38 +1,11 @@
+import random
 import re
 from typing import Any
 
 import scrapy
 from scrapy.http.response import Response
 from selenium import webdriver
-
-
-TECHNOLOGIES = [
-        "Django", "Flask", "FastAPI", "RESTful APIs", "Pyramid", "Tornado", "Bottle", "CherryPy",
-        "PostgreSQL", "MySQL", "SQLite", "MongoDB", "Redis", "Cassandra", "Oracle DB",
-        "Elasticsearch", "DynamoDB",
-        "AWS", "EC2", "S3", "RDS", "Lambda", "Google Cloud Platform", "Microsoft Azure", "Heroku",
-        "DigitalOcean",
-        "Docker", "Kubernetes", "OpenShift", "Docker Compose", "Helm",
-        "Jenkins", "GitLab CI", "Travis CI", "CircleCI", "GitHub Actions", "Bamboo",
-        "Git", "Mercurial", "SVN",
-        "REST", "GraphQL", "SOAP", "gRPC", "WebSockets",
-        "PyTest", "Unittest", "Nose", "Selenium", "Hypothesis", "Robot Framework",
-        "Ansible", "Terraform", "Puppet", "Chef",
-        "asyncio", "Twisted", "Celery", "aiohttp", "gevent",
-        "TensorFlow", "PyTorch", "Keras", "Scikit-learn", "Pandas", "NumPy", "Matplotlib",
-        "SciPy", "XGBoost", "LightGBM", "OpenCV",
-        "Apache Hadoop", "Apache Spark", "Apache Kafka", "Dask", "Airflow", "Luigi",
-        "Matplotlib", "Seaborn", "Plotly", "Bokeh", "Dash",
-        "JavaScript", "TypeScript", "React", "Angular", "Vue.js", "HTML", "CSS", "Bootstrap",
-        "jQuery",
-        "Requests", "urllib", "Scrapy", "Beautiful Soup", "Twisted", "Paramiko",
-        "Tkinter", "PyQt", "Kivy", "wxPython", "PyGTK",
-        "Make", "CMake", "SCons", "pip", "virtualenv", "Poetry", "Conda",
-        "ELK Stack (Elasticsearch, Logstash, Kibana)", "Prometheus", "Grafana", "Sentry",
-        "Vagrant", "VirtualBox", "Packer", "AWS CloudFormation",
-        "SSL/TLS", "OAuth", "JWT", "bcrypt", "cryptography",
-        "Pygame", "Panda3D", "PyOpenGL", "Cocos2d"
-    ]
+from scrape.scraper.scraper.settings import TECHNOLOGIES, USER_AGENT_LIST
 
 
 class DjinniSpider(scrapy.Spider):
@@ -46,6 +19,10 @@ class DjinniSpider(scrapy.Spider):
 
     def closed(self, *args, **kwargs) -> None:
         self.driver.close()
+
+    def start_requests(self):
+        for url in self.start_urls:
+            yield scrapy.Request(url, headers={"User-Agent": random.choice(USER_AGENT_LIST)}, callback=self.parse)
 
     def parse(self, response: Response) -> None:
         jobs = response.css('h3 a.job-item__title-link')
