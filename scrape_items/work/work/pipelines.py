@@ -8,6 +8,6 @@
 from itemadapter import ItemAdapter
 
 
-class DjinniScraperPipeline:
+class WorkPipeline:
     def process_item(self, item, spider):
         return item

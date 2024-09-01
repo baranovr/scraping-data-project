@@ -1,12 +1,16 @@
-import re
 import random
+import re
 from typing import Any
 
 import scrapy
 from scrapy.http.response import Response
+from scrapy.crawler import CrawlerProcess
 from selenium import webdriver
 
-from scrape.scraper.scraper.settings import TECHNOLOGIES, USER_AGENT_LIST
+from scraping_data_project.settings import TECHNOLOGIES, USER_AGENT_LIST
+from scraping_data.models import JobListing
+
+from multiprocessing import Process
 
 
 class WorkSpider(scrapy.Spider):
@@ -20,6 +24,7 @@ class WorkSpider(scrapy.Spider):
 
     def closed(self, *args, **kwargs) -> None:
         self.driver.close()
+        self.driver.quit()
 
     def start_requests(self):
         for url in self.start_urls:
@@ -37,18 +42,18 @@ class WorkSpider(scrapy.Spider):
         if next_page:
             yield scrapy.Request(response.urljoin(next_page), callback=self.parse)
 
-    def get_all_data(self, response: Response) -> None:
+    def get_all_data(self, response: Response) -> dict:
         yield {
             "title": self.parse_title(response=response),
             "company": self.parse_company(response=response),
             "location": self.parse_location(response=response),
-            "experience(years)": self.parse_experience(response=response),
-            "salary(₴K)": self.parse_salary(response=response),
-            "date_posted": self.parse_data_posted(response=response),
+            "years_of_experience": self.parse_experience(response=response),
+            "salary": self.parse_salary(response=response),
+            "date_posted": "None",
             "views_popularity": "None",
             "english_level": self.parse_eng_lvl(response=response),
             "technologies": self.parse_technologies(response=response),
-            "source": "work.ua"
+            "source": "djinni.co"
         }
 
     def parse_title(self, response: Response) -> str:
@@ -107,21 +112,30 @@ class WorkSpider(scrapy.Spider):
         return "None"
 
     def parse_eng_lvl(self, response: Response) -> str:
-        ENGLISH_LVLS = ["upper-Intermediate", "b2", "advanced", "c1", "c2", "intermediate", "b1", "fluent", "native"]
+        ENGLISH_LVLS = {
+            "b1": "intermediate",
+            "b2": "upper-Intermediate",
+            "c1": "advanced"
+        }
 
         lang_li = response.css("li")
         for li in lang_li:
             if li.css("span.glyphicon-language"):
                 lang = li.css("span.glyphicon-language::text").get()
                 if "cеред" in lang:
-                    return ENGLISH_LVLS[5]
+                    return "Intermediate"
             else:
                 job_description = response.css("#job-description *::text").getall()
                 text = " ".join(job_description).strip()
 
-                for level in ENGLISH_LVLS:
-                    if level.lower() in text.lower():
-                        return level.capitalize()
+                for level_v in ENGLISH_LVLS.values():
+                    if level_v.lower() in text.lower():
+                        return level_v.capitalize()
+
+                for level_k in ENGLISH_LVLS.keys():
+                    if level_k.lower() in ENGLISH_LVLS.keys():
+                        return ENGLISH_LVLS[level_k.lower()].capitalize()
+
                 return "None"
 
     def parse_technologies(self, response: Response) -> list[Any]:
@@ -135,3 +149,19 @@ class WorkSpider(scrapy.Spider):
                 technologies.append(tech)
 
         return technologies
+
+
+def run_spider(spider_class):
+    process = CrawlerProcess()
+    process.crawl(spider_class)
+    process.start()
+
+
+if __name__ == '__main__':
+    p2 = Process(target=run_spider, args=(WorkSpider,))
+
+    p2.start()
+    p2.join()
+    if p2.is_alive():
+        p2.terminate()
+        p2.join()

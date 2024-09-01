@@ -4,8 +4,13 @@ from typing import Any
 
 import scrapy
 from scrapy.http.response import Response
+from scrapy.crawler import CrawlerProcess
 from selenium import webdriver
-from scrape.scraper.scraper.settings import TECHNOLOGIES, USER_AGENT_LIST
+
+from scraping_data_project.settings import TECHNOLOGIES, USER_AGENT_LIST
+from scraping_data.models import JobListing
+
+from multiprocessing import Process
 
 
 class DjinniSpider(scrapy.Spider):
@@ -19,6 +24,7 @@ class DjinniSpider(scrapy.Spider):
 
     def closed(self, *args, **kwargs) -> None:
         self.driver.close()
+        self.driver.quit()
 
     def start_requests(self):
         for url in self.start_urls:
@@ -40,7 +46,7 @@ class DjinniSpider(scrapy.Spider):
             "title": self.parse_title(response=response),
             "company": self.parse_company(response=response),
             "location": self.parse_location(response=response),
-            "experience(years)": self.parse_experience(response=response),
+            "years_of_experience": self.parse_experience(response=response),
             "salary": self.parse_salary(response=response),
             "date_posted": "None",
             "views_popularity": "None",
@@ -104,3 +110,19 @@ class DjinniSpider(scrapy.Spider):
                     found_technologies.append(tech)
 
         return found_technologies
+
+
+def run_spider(spider_class):
+    process = CrawlerProcess()
+    process.crawl(spider_class)
+    process.start()
+
+
+if __name__ == '__main__':
+    p1 = Process(target=run_spider, args=(DjinniSpider,))
+
+    p1.start()
+    p1.join()
+    if p1.is_alive():
+        p1.terminate()
+        p1.join()

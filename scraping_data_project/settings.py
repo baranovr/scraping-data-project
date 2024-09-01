@@ -137,3 +137,38 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+USER_AGENT_LIST = [
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0'
+]
+
+TECHNOLOGIES = [
+        "Django", "Flask", "FastAPI", "RESTful APIs", "Pyramid", "Tornado", "Bottle", "CherryPy",
+        "PostgreSQL", "MySQL", "SQLite", "MongoDB", "Redis", "Cassandra", "Oracle DB",
+        "Elasticsearch", "DynamoDB",
+        "AWS", "EC2", "S3", "RDS", "Lambda", "Google Cloud Platform", "Microsoft Azure", "Heroku",
+        "DigitalOcean",
+        "Docker", "Kubernetes", "OpenShift", "Docker Compose", "Helm",
+        "Jenkins", "GitLab CI", "Travis CI", "CircleCI", "GitHub Actions", "Bamboo",
+        "Git", "Mercurial", "SVN",
+        "REST", "GraphQL", "SOAP", "gRPC", "WebSockets",
+        "PyTest", "Unittest", "Nose", "Selenium", "Hypothesis", "Robot Framework",
+        "Ansible", "Terraform", "Puppet", "Chef",
+        "asyncio", "Twisted", "Celery", "aiohttp", "gevent",
+        "TensorFlow", "PyTorch", "Keras", "Scikit-learn", "Pandas", "NumPy", "Matplotlib",
+        "SciPy", "XGBoost", "LightGBM", "OpenCV",
+        "Apache Hadoop", "Apache Spark", "Apache Kafka", "Dask", "Airflow", "Luigi",
+        "Matplotlib", "Seaborn", "Plotly", "Bokeh", "Dash",
+        "JavaScript", "TypeScript", "React", "Angular", "Vue.js", "HTML", "CSS", "Bootstrap",
+        "jQuery",
+        "Requests", "urllib", "Scrapy", "Beautiful Soup", "Twisted", "Paramiko",
+        "Tkinter", "PyQt", "Kivy", "wxPython", "PyGTK",
+        "Make", "CMake", "SCons", "pip", "virtualenv", "Poetry", "Conda",
+        "ELK Stack (Elasticsearch, Logstash, Kibana)", "Prometheus", "Grafana", "Sentry",
+        "Vagrant", "VirtualBox", "Packer", "AWS CloudFormation",
+        "SSL/TLS", "OAuth", "JWT", "bcrypt", "cryptography",
+        "Pygame", "Panda3D", "PyOpenGL", "Cocos2d"
+]

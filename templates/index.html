@@ -149,9 +149,13 @@
               </h6>
           </div>
           <hr>
-          
-           <!-- New block for Djinni scraping -->
-        <div class="row mt-5">
+
+
+
+
+
+           <!-- -----------------------New block for Djinni.co scraping----------------------- -->
+      <div class="row mt-5">
         <div class="col-lg-12">
           <div class="card card-plain bg-white" style="border: 1px solid black;">
             <div class="card-body">
@@ -159,7 +163,7 @@
               <p>Get the most recent job market data directly from Djinni.co. Click the button below to start scraping data on Python developer positions.</p>
               <button id="scrape-djinni" class="btn btn-dark">Scrape Djinni</button>
 
-              <div id="scrape-results" class="mt-4" style="display:none;">
+              <div id="scrape-results-djinni" class="mt-4" style="display:none;">
                 <h6>Scraping Results:</h6>
                   <div class="row mt-3">
                     <div class="col-lg-12">
@@ -174,133 +178,205 @@
                     <div class="col-lg-6">
                         <canvas id="salaryChart"></canvas>
                     </div>
-                </div>
+                  </div>
+                  <div class="row mt-5">
+                    <div class="col-lg-6">
+                        <canvas id="companyChart"></canvas>
+                    </div>
+                    <div class="col-lg-6">
+                        <canvas id="locationChart"></canvas>
+                    </div>
+                  </div>
                 <div id="loading" style="display:none;">
                   <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
                   <p>Loading data, please wait...</p>
                 </div>
-                <div id="result-content"></div>
+                <div id="result-content-djinni"></div>
               </div>
             </div>
           </div>
-            
-            
-        <div class="row mt-5">
+
+
+
+
+
+         <!-- -----------------------New block for Work.ua scraping----------------------- -->
+      <div class="row mt-5">
         <div class="col-lg-12">
-          <div class="card card-plain bg-white" style="border: 1px solid #66d432;">
+          <div class="card card-plain bg-white" style="border: 1px solid blue;">
             <div class="card-body">
-              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Dou.ua</h5>
-              <p>Get the most recent job market data directly from jobs.dou.ua. Click the button below to start scraping data on Python developer positions.</p>
-              <button id="scrape-dou" class="btn btn-success">Scrape Dou</button>
-              <div id="scrape-results" class="mt-4" style="display:none;">
-                <h6>Scraping Results:</h6>
-                  <div class="row mt-3">
-                    <div class="col-lg-12">
-                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
+              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Work.ua</h5>
+                <p>Get the most recent job market data directly from Work.ua. Click the button below to start scraping data on Python developer positions.</p>
+                  <button id="scrape-work" class="btn btn-info">Scrape Work.ua</button>
+
+                    <div id="scrape-results-work" class="mt-4" style="display:none;">
+                      <h6>Scraping Results:</h6>
+                        <div class="row mt-3">
+                          <div class="col-lg-12">
+                            <button id="saveCsvWork" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
+                          </div>
+                        </div>
+                        <div class="row mt-5">
+                          <div class="col-lg-6">
+                            <canvas id="popularityChartWork"></canvas>
+                          </div>
+                          <div class="col-lg-6">
+                            <canvas id="salaryChartWork"></canvas>
+                          </div>
+                        </div>
+                        <div class="row mt-5">
+                          <div class="col-lg-6">
+                            <canvas id="companyChartWork"></canvas>
+                          </div>
+                          <div class="col-lg-6">
+                            <canvas id="locationChartWork"></canvas>
+                          </div>
+                        </div>
+                        <div id="loading-work" style="display:none;">
+                          <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
+                          <p>Loading data, please wait...</p>
+                        </div>
+                        <div id="result-content-work"></div>
                     </div>
-                  </div>
-                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                  <div class="row mt-5">
-                    <div class="col-lg-6">
-                        <canvas id="popularityChart"></canvas>
-                    </div>
-                    <div class="col-lg-6">
-                        <canvas id="salaryChart"></canvas>
-                    </div>
-                </div>
-                <div id="loading" style="display:none;">
-                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
-                  <p>Loading data, please wait...</p>
-                </div>
-                <div id="result-content"></div>
-              </div>
             </div>
           </div>
+        </div>
+      </div>
+
+
+
+
+          <!-- -----------------------New block for else scraping----------------------- -->
             
-            
-            
-            <div class="row mt-5">
-        <div class="col-lg-12">
-          <div class="card card-plain bg-white" style="border: 1px solid #d60808;">
-            <div class="card-body">
-              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Robota.ua</h5>
-              <p>Get the most recent job market data directly from robota.ua. Click the button below to start scraping data on Python developer positions.</p>
-              <button id="scrape-robota" class="btn btn-warning">Scrape Robota</button>
-              <div id="scrape-results" class="mt-4" style="display:none;">
-                <h6>Scraping Results:</h6>
-                  <div class="row mt-3">
-                    <div class="col-lg-12">
-                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
-                    </div>
-                  </div>
-                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                  <div class="row mt-5">
-                    <div class="col-lg-6">
-                        <canvas id="popularityChart"></canvas>
-                    </div>
-                    <div class="col-lg-6">
-                        <canvas id="salaryChart"></canvas>
-                    </div>
-                </div>
-                <div id="loading" style="display:none;">
-                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
-                  <p>Loading data, please wait...</p>
-                </div>
-                <div id="result-content"></div>
-              </div>
-            </div>
-          </div>
-            
-            
-            
-            <div class="row mt-5">
-        <div class="col-lg-12">
-          <div class="card card-plain bg-white" style="border: 1px solid #0dcaf0;">
-            <div class="card-body">
-              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from LinkedIn.com</h5>
-              <p>Get the most recent job market data directly from linkedin.com. Click the button below to start scraping data on Python developer positions.</p>
-              <button id="scrape-linkedin" class="btn btn-info">Scrape LinkedIn</button>
-              <div id="scrape-results" class="mt-4" style="display:none;">
-                <h6>Scraping Results:</h6>
-                  <div class="row mt-3">
-                    <div class="col-lg-12">
-                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
-                    </div>
-                  </div>
-                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                  <div class="row mt-5">
-                    <div class="col-lg-6">
-                        <canvas id="popularityChart"></canvas>
-                    </div>
-                    <div class="col-lg-6">
-                        <canvas id="salaryChart"></canvas>
-                    </div>
-                </div>
-                <div id="loading" style="display:none;">
-                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
-                  <p>Loading data, please wait...</p>
-                </div>
-                <div id="result-content"></div>
-              </div>
-            </div>
-          </div>
-            
-            
-            <button id="goToTopBtn" 
-                          style="display:none; 
-                          position:fixed; 
-                          bottom:20px; 
-                          right:20px; 
-                          background-color:#007bff; 
-                          color:white; 
-                          border:none; 
-                          padding:10px 15px; 
+{#      <div class="row mt-5">  #}
+{#        <div class="col-lg-12">#}
+{#          <div class="card card-plain bg-white" style="border: 1px solid #66d432;">#}
+{#            <div class="card-body">#}
+{#              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Dou.ua</h5>#}
+{#              <p>Get the most recent job market data directly from jobs.dou.ua. Click the button below to start scraping data on Python developer positions.</p>#}
+{#              <button id="scrape-dou" class="btn btn-success">Scrape Dou</button>#}
+{#              <div id="scrape-results" class="mt-4" style="display:none;">#}
+{#                <h6>Scraping Results:</h6>#}
+{#                  <div class="row mt-3">#}
+{#                    <div class="col-lg-12">#}
+{#                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
+{#                  <div class="row mt-5">#}
+{#                    <div class="col-lg-6">#}
+{#                        <canvas id="popularityChart"></canvas>#}
+{#                    </div>#}
+{#                    <div class="col-lg-6">#}
+{#                        <canvas id="salaryChart"></canvas>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div id="loading" style="display:none;">#}
+{#                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">#}
+{#                  <p>Loading data, please wait...</p>#}
+{#                </div>#}
+{#                <div id="result-content"></div>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#            #}
+{#            #}
+{#            #}
+{#      <div class="row mt-5">      #}
+{#        <div class="col-lg-12">#}
+{#          <div class="card card-plain bg-white" style="border: 1px solid #d60808;">#}
+{#            <div class="card-body">#}
+{#              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Robota.ua</h5>#}
+{#              <p>Get the most recent job market data directly from robota.ua. Click the button below to start scraping data on Python developer positions.</p>#}
+{#              <button id="scrape-robota" class="btn btn-warning">Scrape Robota</button>#}
+{#              <div id="scrape-results" class="mt-4" style="display:none;">#}
+{#                <h6>Scraping Results:</h6>#}
+{#                  <div class="row mt-3">#}
+{#                    <div class="col-lg-12">#}
+{#                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
+{#                  <div class="row mt-5">#}
+{#                    <div class="col-lg-6">#}
+{#                        <canvas id="popularityChart"></canvas>#}
+{#                    </div>#}
+{#                    <div class="col-lg-6">#}
+{#                        <canvas id="salaryChart"></canvas>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div id="loading" style="display:none;">#}
+{#                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">#}
+{#                  <p>Loading data, please wait...</p>#}
+{#                </div>#}
+{#                <div id="result-content"></div>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#          #}
+{#          #}
+{#          #}
+{#      <div class="row mt-5">      #}
+{#        <div class="col-lg-12">#}
+{#          <div class="card card-plain bg-white" style="border: 1px solid #0dcaf0;">#}
+{#            <div class="card-body">#}
+{#              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from LinkedIn.com</h5>#}
+{#              <p>Get the most recent job market data directly from linkedin.com. Click the button below to start scraping data on Python developer positions.</p>#}
+{#              <button id="scrape-linkedin" class="btn btn-outline-info">Scrape LinkedIn</button>#}
+{#              <div id="scrape-results" class="mt-4" style="display:none;">#}
+{#                <h6>Scraping Results:</h6>#}
+{#                  <div class="row mt-3">#}
+{#                    <div class="col-lg-12">#}
+{#                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>#}
+{#                    </div>#}
+{#                  </div>#}
+{#                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
+{#                  <div class="row mt-5">#}
+{#                    <div class="col-lg-6">#}
+{#                        <canvas id="popularityChart"></canvas>#}
+{#                    </div>#}
+{#                    <div class="col-lg-6">#}
+{#                        <canvas id="salaryChart"></canvas>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div id="loading" style="display:none;">#}
+{#                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">#}
+{#                  <p>Loading data, please wait...</p>#}
+{#                </div>#}
+{#                <div id="result-content"></div>#}
+{#              </div>#}
+{#            </div>#}
+{#          </div>#}
+{#           <button id="goToTopBtn" style="display:none; #}
+{#                          position:fixed; #}
+{#                          bottom:20px; #}
+{#                          right:20px; #}
+{#                          background-color:#007bff; #}
+{#                          color:white; #}
+{#                          border:none; #}
+{#                          padding:10px 15px; #}
+{#                          border-radius:5px;">Go to Top</button>#}
+{#        </div>#}
+{#      </div>#}
+            <button id="goToTopBtn"
+                          style="display:none;
+                          position:fixed;
+                          bottom:20px;
+                          right:20px;
+                          background-color:#007bff;
+                          color:white;
+                          border:none;
+                          padding:10px 15px;
                           border-radius:5px;">
                       Go to Top
                   </button>
-        </div>
-      </div>
     </div>
+    </div>
+      </div>
     </div>
   </section>
 
@@ -309,54 +385,80 @@
 
 <!-- Specific JS goes HERE -->
 {% block javascripts %}
-    
+
   <script src="static/assets/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
-    
+
     <script type="text/javascript">
     function createCharts(data) {
-        const techCounts = {};
-        const salaryData = {};
+    const techCounts = {};
+    const salaryData = {};
+    const companyData = {};
+    const locationData = {};
 
-        data.forEach(job => {
-            job.technologies.forEach(tech => {
-                if (techCounts[tech]) {
-                    techCounts[tech]++;
-                } else {
-                    techCounts[tech] = 1;
-                }
-            });
+    data.forEach(job => {
+        // Technology counts
+        job.technologies.forEach(tech => {
+            techCounts[tech] = (techCounts[tech] || 0) + 1;
+        });
 
-            const experience = job["experience(years)"];
-            const salary = parseInt(job.salary);
-            if (experience && !isNaN(salary)) {
-                if (salaryData[experience]) {
-                    salaryData[experience].push(salary);
-                } else {
-                    salaryData[experience] = [salary];
-                }
+        // Salary data
+        const experience = job["experience(years)"];
+        const salary = parseInt(job.salary);
+        if (experience && !isNaN(salary)) {
+            if (salaryData[experience]) {
+                salaryData[experience].push(salary);
+            } else {
+                salaryData[experience] = [salary];
             }
-        });
+        }
 
-        const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
-        const techLabels = topTechs.map(item => item[0]);
-        const techValues = topTechs.map(item => item[1]);
+        // Company data
+        companyData[job.company] = (companyData[job.company] || 0) + 1;
 
-        const experienceLabels = Object.keys(salaryData);
-        const salaryValues = experienceLabels.map(exp => {
-            const salaries = salaryData[exp];
-            return salaries.reduce((a, b) => a + b, 0) / salaries.length;
-        });
-        
-        const ctx1 = document.getElementById('popularityChart').getContext('2d');
-        new Chart(ctx1, {
+        // Location data
+        locationData[job.location] = (locationData[job.location] || 0) + 1;
+    });
+
+    // Top 15 technologies
+    const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 15);
+    const techLabels = topTechs.map(item => item[0]);
+    const techValues = topTechs.map(item => item[1]);
+
+    // Salary data
+    const experienceLabels = Object.keys(salaryData);
+    const salaryValues = experienceLabels.map(exp => {
+        const salaries = salaryData[exp];
+        return salaries.reduce((a, b) => a + b, 0) / salaries.length;
+    });
+
+    // Top 10 companies
+    const topCompanies = Object.entries(companyData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const companyLabels = topCompanies.map(item => item[0]);
+    const companyValues = topCompanies.map(item => item[1]);
+
+    // Top 10 locations
+    const topLocations = Object.entries(locationData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const locationLabels = topLocations.map(item => item[0]);
+    const locationValues = topLocations.map(item => item[1]);
+
+    // Create charts
+    createBarChart('popularityChart', 'Top 15 Technologies', techLabels, techValues, 'rgba(54, 162, 235, 0.6)', 'rgba(54, 162, 235, 1)');
+    createBarChart('salaryChart', 'Average Salary by Experience', experienceLabels, salaryValues, 'rgba(75, 192, 192, 0.6)', 'rgba(75, 192, 192, 1)');
+    createBarChart('companyChart', 'Top 10 Companies', companyLabels, companyValues, 'rgba(255, 99, 132, 0.6)', 'rgba(255, 99, 132, 1)');
+    createBarChart('locationChart', 'Top 10 Locations', locationLabels, locationValues, 'rgba(255, 206, 86, 0.6)', 'rgba(255, 206, 86, 1)');
+}
+
+    function createBarChart(canvasId, label, labels, data, backgroundColor, borderColor) {
+        const ctx = document.getElementById(canvasId).getContext('2d');
+        new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: techLabels,
+                labels: labels,
                 datasets: [{
-                    label: 'Number of Mentions',
-                    data: techValues,
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
+                    label: label,
+                    data: data,
+                    backgroundColor: backgroundColor,
+                    borderColor: borderColor,
                     borderWidth: 1
                 }]
             },
@@ -366,32 +468,10 @@
                         beginAtZero: true
                     }
                 },
-                indexAxis: 'y',
+                indexAxis: canvasId === 'popularityChart' ? 'y' : 'x',
                 plugins: {
                     legend: {
                         display: false
-                    }
-                }
-            }
-        });
-        
-        const ctx2 = document.getElementById('salaryChart').getContext('2d');
-        new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: experienceLabels,
-                datasets: [{
-                    label: 'Average Salary ($)',
-                    data: salaryValues,
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                    borderColor: 'rgba(75, 192, 192, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
                     }
                 }
             }
@@ -419,7 +499,7 @@
     }
 
     document.getElementById('scrape-djinni').addEventListener('click', function () {
-    document.getElementById('scrape-results').style.display = 'block';
+    document.getElementById('scrape-results-djinni').style.display = 'block';
     document.getElementById('loading').style.display = 'block';
 
     fetch('{% url "scraping_data:scrape_djinni" %}', {
@@ -429,7 +509,7 @@
     .then(data => {
         document.getElementById('loading').style.display = 'none';
 
-        let resultContent = document.getElementById('result-content');
+        let resultContent = document.getElementById('result-content-djinni');
         const limit = 0; // Modify this as per your needs
         const limitedData = data.slice(0, limit);
         resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
@@ -439,7 +519,7 @@
             const viewAllBtn = document.createElement('button');
             viewAllBtn.textContent = `View Results (${data.length - limit})`;
             viewAllBtn.className = 'btn btn-primary mt-3';
-            
+
             // Create "Hide Results" button
             const hideResultsBtn = document.createElement('button');
             hideResultsBtn.textContent = 'Hide Results';
@@ -475,24 +555,181 @@
     })
     .catch(error => {
         document.getElementById('loading').style.display = 'none';
-        document.getElementById('result-content').innerHTML = '<p style="color:red;">Error occurred while scraping data.</p>';
+        document.getElementById('result-content-djinni').innerHTML = '<p style="color:red;">Error occurred while scraping data.</p>';
     });
 });
 
-    
-    window.onscroll = function() {
-        const goToTopBtn = document.getElementById('goToTopBtn');
-        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            goToTopBtn.style.display = 'block';
-        } else {
-            goToTopBtn.style.display = 'none';
+
+    // Function to create charts
+function createChartsWork(data) {
+    const techCounts = {};
+    const salaryByLocation = {};
+    const companyData = {};
+    const locationData = {};
+
+    data.forEach(job => {
+        // Technology counts
+        job.technologies.forEach(tech => {
+            techCounts[tech] = (techCounts[tech] || 0) + 1;
+        });
+
+            // Salary data by location
+        const location = job.location;
+        const salary = parseInt(job.salary);
+        if (location && !isNaN(salary)) {
+            if (salaryByLocation[location]) {
+                salaryByLocation[location].push(salary);
+            } else {
+                salaryByLocation[location] = [salary];
+            }
         }
-    };
-    
-    document.getElementById('goToTopBtn').addEventListener('click', function() {
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
+
+        // Company data
+        companyData[job.company] = (companyData[job.company] || 0) + 1;
+
+        // Location data
+        locationData[job.location] = (locationData[job.location] || 0) + 1;
     });
+
+    // Top 15 technologies
+    const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 15);
+    const techLabels = topTechs.map(item => item[0]);
+    const techValues = topTechs.map(item => item[1]);
+
+    // Salary data
+    const experienceLabels = Object.keys(salaryData);
+    const salaryValues = experienceLabels.map(exp => {
+        const salaries = salaryData[exp];
+        return salaries.reduce((a, b) => a + b, 0) / salaries.length;
+    });
+
+    // Top 10 companies
+    const topCompanies = Object.entries(companyData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const companyLabels = topCompanies.map(item => item[0]);
+    const companyValues = topCompanies.map(item => item[1]);
+
+    // Top 10 locations
+    const topLocations = Object.entries(locationData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const locationLabels = topLocations.map(item => item[0]);
+    const locationValues = topLocations.map(item => item[1]);
+
+    // Create charts
+    createBarChartWork('popularityChartWork', 'Top 15 Technologies', techLabels, techValues, 'rgba(54, 162, 235, 0.6)', 'rgba(54, 162, 235, 1)');
+    createBarChart('salaryChartWork', 'Average Salary(₴K) by Location', locationLabelsForSalary, salaryValues, 'rgba(75, 192, 192, 0.6)', 'rgba(75, 192, 192, 1)');
+    createBarChartWork('companyChartWork', 'Top 10 Companies', companyLabels, companyValues, 'rgba(255, 99, 132, 0.6)', 'rgba(255, 99, 132, 1)');
+    createBarChartWork('locationChartWork', 'Top 10 Locations', locationLabels, locationValues, 'rgba(255, 206, 86, 0.6)', 'rgba(255, 206, 86, 1)');
+}
+
+function createBarChartWork(canvasId, label, labels, data, backgroundColor, borderColor) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            indexAxis: canvasId === 'popularityChartWork' ? 'y' : 'x',
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+function saveToCsvWork(data) {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Title,Company,Location,Experience,Salary,Technologies,Source\n";
+
+    data.forEach(job => {
+        const technologies = job.technologies.join('; ');
+        const row = `${job.title},${job.company},${job.location},${job["experience(years)"] || ''},${job.salary || ''},${technologies},${job.source}`;
+        csvContent += row + "\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "work_ua.csv");
+    document.body.appendChild(link);
+
+    link.click();
+    document.body.removeChild(link);
+}
+
+document.getElementById('scrape-work').addEventListener('click', function () {
+    document.getElementById('scrape-results-work').style.display = 'block';
+    document.getElementById('loading-work').style.display = 'block';
+
+    fetch('{% url "scraping_data:scrape_work" %}', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('loading-work').style.display = 'none';
+
+        let resultContent = document.getElementById('result-content-work');
+        const limit = 0; // Modify this as per your needs
+        const limitedData = data.slice(0, limit);
+        resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+
+        if (data.length > limit) {
+            // Create "View Results" button
+            const viewAllBtn = document.createElement('button');
+            viewAllBtn.textContent = `View Results (${data.length - limit})`;
+            viewAllBtn.className = 'btn btn-primary mt-3';
+
+            // Create "Hide Results" button
+            const hideResultsBtn = document.createElement('button');
+            hideResultsBtn.textContent = 'Hide Results';
+            hideResultsBtn.className = 'btn btn-secondary mt-3';
+            hideResultsBtn.style.display = 'none';
+
+            // Show full results on clicking "View Results"
+            viewAllBtn.onclick = function () {
+                resultContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                this.style.display = 'none';
+                hideResultsBtn.style.display = 'inline-block';
+            };
+
+            // Hide full results and revert to limited view on clicking "Hide Results"
+            hideResultsBtn.onclick = function () {
+                resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+                this.style.display = 'none';
+                viewAllBtn.style.display = 'inline-block';
+            };
+
+            // Append buttons to result content
+            resultContent.appendChild(viewAllBtn);
+            resultContent.appendChild(hideResultsBtn);
+        }
+
+        createChartsWork(data);
+
+        document.getElementById('saveCsvWork').style.display = 'inline-block';
+        document.getElementById('saveCsvWork').addEventListener('click', function() {
+            saveToCsvWork(data);
+        });
+
+    })
+    .catch(error => {
+        document.getElementById('loading-work').style.display = 'none';
+        document.getElementById('result-content-work').innerHTML = '<p style="color:red;">Error occurred while scraping data.</p>';
+    });
+});
 </script>
 
 {% endblock javascripts %}

@@ -4,11 +4,11 @@ from scraping_data import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("vacancies/", views.vacancy_list, name="vacancy_list"),
-    path("technology-stats/", views.technology_stats, name="technology_stats"),
-    path("historical-data/", views.historical_data, name="historical_data"),
+    path("scrape-djinni/", views.scrape_djinni, name="scrape_djinni"),
+    path("scrape-work/", views.scrape_work, name="scrape_work"),
     path("download-csv/", views.download_csv, name="download_csv"),
-    path("scrape_djinni/", views.scrape_djinni, name="scrape_djinni"),
+    path("job-listings/", views.job_listings, name="job_listings"),
+    path("historical-data/", views.historical_data, name="historical_data"),
 ]
 
 app_name = "scraping_data"

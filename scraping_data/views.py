@@ -1,40 +1,112 @@
-from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
-from scraping_data.models import Vacancy, Technology, HistoricalData
 import csv
+import os
+import django
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render
+from django.core.wsgi import get_wsgi_application
+
+from multiprocessing import Process, Queue
+
 from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings
-from scrape.djinni_scraper.djinni_scraper.spiders.djinni import DjinniSpider
-from scrapy.settings import Settings
 from scrapy import signals
 from scrapy.signalmanager import dispatcher
-import json
+from scrapy.utils.project import get_project_settings
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project.settings")
+django.setup()
+
+from scraping_data.models import JobListing, Technology, HistoricalData
+from scrape_items.work.work.spiders.djinni_spider import DjinniSpider
+from scrape_items.work.work.spiders.work_spider import WorkSpider
 
 
-def index(request):
-    return render(request, "index.html")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "scraping_data_project.settings")
+django.setup()
 
 
-def vacancy_list(request):
-    vacancies = Vacancy.objects.all()
-    return render(request, "vacancy_list.html", {"vacancies": vacancies})
+def run_spider(spider_class, results_queue):
+    def crawler_results(signal, sender, item, response, spider):
+        results_queue.put(item)
+
+    dispatcher.connect(crawler_results, signal=signals.item_scraped)
+
+    process = CrawlerProcess(get_project_settings())
+    process.crawl(spider_class)
+    process.start()
 
 
-def technology_stats(request):
-    tech_stats = Technology.objects.all().order_by("-vacancy_count")
-    return render(request, "technology_stats.html", {"tech_stats": tech_stats})
+def scrape_djinni(request):
+    results_queue = Queue()
+
+    djinni_process = Process(target=run_spider, args=(DjinniSpider, results_queue))
+    djinni_process.start()
+    djinni_process.join()
+
+    results = []
+    while not results_queue.empty():
+        results.append(results_queue.get())
+
+    # for item in results:
+    #     job_listing = JobListing(
+    #         title=item['title'],
+    #         company=item['company'],
+    #         location=item['location'],
+    #         years_of_experience=item['years_of_experience'],
+    #         salary=item['salary'],
+    #         date_posted=item['date_posted'],
+    #         views_popularity=item['views_popularity'],
+    #         english_level=item['english_level'],
+    #         source=item['source']
+    #     )
+    #     job_listing.save()
+    #
+    #     for tech in item['technologies']:
+    #         technology, created = Technology.objects.get_or_create(name=tech)
+    #         job_listing.technologies.add(technology)
+
+    return JsonResponse(results, safe=False)
+
+
+def scrape_work(request):
+    results_queue = Queue()
+
+    work_process = Process(target=run_spider, args=(WorkSpider, results_queue))
+    work_process.start()
+    work_process.join()
+
+    results = []
+    while not results_queue.empty():
+        results.append(results_queue.get())
+
+    # for item in results:
+    #     job_listing = JobListing(
+    #         title=item['title'],
+    #         company=item['company'],
+    #         location=item['location'],
+    #         years_of_experience=item['years_of_experience'],
+    #         salary=item['salary'],
+    #         date_posted=item['date_posted'],
+    #         views_popularity=item['views_popularity'],
+    #         english_level=item['english_level'],
+    #         source=item['source']
+    #     )
+    #     job_listing.save()
+    #
+    #     for tech in item['technologies']:
+    #         technology, created = Technology.objects.get_or_create(name=tech)
+    #         job_listing.technologies.add(technology)
+
+    return JsonResponse(results, safe=False)
 
 
 def download_csv(request):
     response = HttpResponse(content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename="tech_stats.csv"'
-
     writer = csv.writer(response)
     writer.writerow(
         ["Title", "Company", "Location", "Technology", "Experience", "Salary", "Date Posted", "Views", "Source"]
     )
-
-    for vacancy in Vacancy.objects.all():
+    for vacancy in JobListing.objects.all():
         writer.writerow(
             [
                 vacancy.title,
@@ -48,25 +120,18 @@ def download_csv(request):
                 vacancy.source
             ]
         )
-
     return response
 
 
+def job_listings(request):
+    listings = JobListing.objects.all()
+    return render(request, 'job_listings.html', {'listings': listings})
+
+
 def historical_data(request):
-    history = HistoricalData.objects.all().order_by("date", "technology__name")
-    return render(request, "historical_data.html", {"history": history})
+    data = HistoricalData.objects.all().order_by('date')
+    return render(request, 'historical_data.html', {'data': data})
 
 
-def scrape_djinni(request):
-    results = []
-
-    def crawler_results(signal, sender, item, response, spider):
-        results.append(item)
-
-    dispatcher.connect(crawler_results, signal=signals.item_scraped)
-
-    process = CrawlerProcess(get_project_settings())
-    process.crawl(DjinniSpider)
-    process.start()
-
-    return JsonResponse(results, safe=False)
+def index(request):
+    return render(request, "index.html")
