@@ -1,6 +1,4 @@
-{% extends 'layouts/base.html' %}
-
-{% block title %} Author {% endblock title %}
+{% extends 'base.html' %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -24,10 +22,10 @@
                 <h4 class="mb-0">Welcome to Tech Market Analysis</h4>
               </div>
               <p class="text-lg mb-0">
-                Stay ahead of the curve with our comprehensive Tech Market Analysis platform. 
-                  This service provides you with up-to-date insights into the most demanded 
-                  technologies in the tech job market, specifically tailored for Python developers. 
-                  Whether you're a beginner or an experienced professional, understanding which 
+                Stay ahead of the curve with our comprehensive Tech Market Analysis platform.
+                  This service provides you with up-to-date insights into the most demanded
+                  technologies in the tech job market, specifically tailored for Python developers.
+                  Whether you're a beginner or an experienced professional, understanding which
                   technologies are currently in demand is crucial for advancing your career. <br>
               </p>
             </div>
@@ -57,8 +55,8 @@
                 <a href="javascript:;" class="text-dark font-weight-bold">Vacancy Listings</a>
               </h5>
               <p>
-                Explore the latest Python developer job openings, 
-                  complete with details on required technologies, 
+                Explore the latest Python developer job openings,
+                  complete with details on required technologies,
                   company, location, and experience level.
               </p>
             </div>
@@ -77,7 +75,7 @@
               </h5>
               <p>
                 Get a clear view of the most mentioned technologies across job postings.
-                  Our service aggregates and analyzes data to highlight the tools and 
+                  Our service aggregates and analyzes data to highlight the tools and
                   frameworks that are most sought after by employers.
               </p>
             </div>
@@ -95,8 +93,8 @@
                 <a href="javascript:;" class="text-dark font-weight-bold">Historical Data</a>
               </h5>
               <p>
-                Track trends over time. 
-                  See how the popularity of different technologies has evolved, 
+                Track trends over time.
+                  See how the popularity of different technologies has evolved,
                   helping you identify emerging trends and shifts in the job market.
               </p>
             </div>
@@ -114,8 +112,8 @@
                 <a href="javascript:;" class="text-dark font-weight-bold">Downloadable Reports</a>
               </h5>
               <p>
-                Export the data you need in CSV format for deeper analysis. 
-                  Whether you're a researcher or just keen on data, our downloadable 
+                Export the data you need in CSV format for deeper analysis.
+                  Whether you're a researcher or just keen on data, our downloadable
                   reports give you the flexibility to explore the information further.
               </p>
             </div>
@@ -124,7 +122,7 @@
           <hr>
           <div>
               <h6>
-                  ⚠️ Please note that when scraping, information is collected only from available information, 
+                  ⚠️ Please note that when scraping, information is collected only from available information,
                   without prior registration on the services!⚠️
               </h6>
           </div>
@@ -227,7 +225,7 @@
 
 
           <!-- -----------------------New block for else scraping----------------------- -->
-            
+
 {#      <div class="row mt-5">  #}
 {#        <div class="col-lg-12">#}
 {#          <div class="card card-plain bg-white" style="border: 1px solid #66d432;">#}
@@ -370,7 +368,6 @@
 
     <script type="text/javascript">
     
-    
     <!-- ################################# Djinni functionality ################################# -->
     // Function to create charts for Djinni.co
 function createCharts(data) {
@@ -468,7 +465,7 @@ function createBarChart(canvasId, label, labels, data, backgroundColor, borderCo
 
         data.forEach(job => {
             const technologies = job.technologies.join('; ');
-            const row = `${job.title},${job.company},${job.location},${job["experience(years)"] || ''},${job.salary || ''},${technologies},${job.source}`;
+            const row = `${job.title},${job.company},${job.location},${job["years_of_experience"] || ''},${job.salary || ''},${technologies},${job.source}`;
             csvContent += row + "\n";
         });
 
@@ -543,12 +540,11 @@ function createBarChart(canvasId, label, labels, data, backgroundColor, borderCo
     });
 });
 
-    
-    
-    
-    
-    <!-- ################################# Work functionality ################################# -->
 
+
+
+
+    <!-- ################################# Work functionality ################################# -->
 // Function to create charts
 function createChartsWork(data) {
     const techCounts = {};

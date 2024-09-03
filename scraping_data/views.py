@@ -1,16 +1,20 @@
-import csv
-import json
 import os
+import csv
+
 import django
+from django.http import JsonResponse, HttpResponse
+from django.shortcuts import render
+
 from multiprocessing import Process, Queue
+
 from scrape_items.djinni_scraper.djinni_scraper.spiders.djinni_spider import DjinniSpider
 from scrape_items.work_scraper.work_scraper.spiders.work_spider import WorkSpider
+
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from scrapy import signals
 from scrapy.signalmanager import dispatcher
-from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render
+
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project.settings")
 django.setup()
