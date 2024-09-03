@@ -1,4 +1,4 @@
-# Scrapy settings for work project
+# Scrapy settings for djinni_scraper project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,15 +7,15 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "work"
+BOT_NAME = "djinni_scraper"
 
-SPIDER_MODULES = ["work.spiders"]
-NEWSPIDER_MODULE = "work.spiders"
+SPIDER_MODULES = ["djinni_scraper.spiders"]
+NEWSPIDER_MODULE = "djinni_scraper.spiders"
 
 LOG_LEVEL = "DEBUG"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "work (+http://www.yourdomain.com)"
+#USER_AGENT = "djinni_scraper (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -46,13 +46,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "work.middlewares.WorkSpiderMiddleware": 543,
+#    "djinni_scraper.middlewares.WorkSpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "work.middlewares.WorkDownloaderMiddleware": 543,
+#    "djinni_scraper.middlewares.WorkDownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -64,7 +64,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "work.pipelines.WorkPipeline": 300,
+#    "djinni_scraper.pipelines.WorkPipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -90,5 +90,5 @@ ROBOTSTXT_OBEY = True
 
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
-TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
+TWISTED_REACTOR = 'twisted.internet.asyncioreactor.AsyncioSelectorReactor'
 FEED_EXPORT_ENCODING = "utf-8"

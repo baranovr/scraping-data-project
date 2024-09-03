@@ -32,10 +32,10 @@
 }
 
 // Maximum breakpoint width.
-// The maximum value is reduced by 0.02px to work around the limitations of
+// The maximum value is reduced by 0.02px to djinni_scraper around the limitations of
 // `min-` and `max-` prefixes and viewports with fractional widths.
 // See https://www.w3.org/TR/mediaqueries-4/#mq-min-max
-// Uses 0.02px rather than 0.01px to work around a current rounding bug in Safari.
+// Uses 0.02px rather than 0.01px to djinni_scraper around a current rounding bug in Safari.
 // See https://bugs.webkit.org/show_bug.cgi?id=178261
 //
 //    >> breakpoint-max(md, (xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px))

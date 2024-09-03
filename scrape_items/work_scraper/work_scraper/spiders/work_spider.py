@@ -4,13 +4,9 @@ from typing import Any
 
 import scrapy
 from scrapy.http.response import Response
-from scrapy.crawler import CrawlerProcess
 from selenium import webdriver
 
 from scraping_data_project.settings import TECHNOLOGIES, USER_AGENT_LIST
-from scraping_data.models import JobListing
-
-from multiprocessing import Process
 
 
 class WorkSpider(scrapy.Spider):
@@ -149,19 +145,3 @@ class WorkSpider(scrapy.Spider):
                 technologies.append(tech)
 
         return technologies
-
-
-def run_spider(spider_class):
-    process = CrawlerProcess()
-    process.crawl(spider_class)
-    process.start()
-
-
-if __name__ == '__main__':
-    p2 = Process(target=run_spider, args=(WorkSpider,))
-
-    p2.start()
-    p2.join()
-    if p2.is_alive():
-        p2.terminate()
-        p2.join()
