@@ -1,4 +1,4 @@
-# Scrapy settings for robota_scraper project
+# Scrapy settings for linkedin_scraper project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -7,14 +7,14 @@
 #     https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = "robota_scraper"
+BOT_NAME = "linkedin_scraper"
 
-SPIDER_MODULES = ["robota_scraper.spiders"]
-NEWSPIDER_MODULE = "robota_scraper.spiders"
+SPIDER_MODULES = ["linkedin_scraper.spiders"]
+NEWSPIDER_MODULE = "linkedin_scraper.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = "robota_scraper (+http://www.yourdomain.com)"
+#USER_AGENT = "linkedin_scraper (+http://www.yourdomain.com)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -45,13 +45,13 @@ ROBOTSTXT_OBEY = True
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    "robota_scraper.middlewares.RobotaScraperSpiderMiddleware": 543,
+#    "linkedin_scraper.middlewares.LinkedinScraperSpiderMiddleware": 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    "robota_scraper.middlewares.RobotaScraperDownloaderMiddleware": 543,
+#    "linkedin_scraper.middlewares.LinkedinScraperDownloaderMiddleware": 543,
 #}
 
 # Enable or disable extensions
@@ -63,7 +63,7 @@ ROBOTSTXT_OBEY = True
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    "robota_scraper.pipelines.RobotaScraperPipeline": 300,
+#    "linkedin_scraper.pipelines.LinkedinScraperPipeline": 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
