@@ -6,7 +6,7 @@ import scrapy
 from scrapy.http.response import Response
 from selenium import webdriver
 
-from scraping_data_project.settings import TECHNOLOGIES, USER_AGENT_LIST
+from scraping_data_project.settings import TECHNOLOGIES, USER_AGENT_LIST, SENIORITY_LEVELS
 
 
 class WorkSpider(scrapy.Spider):
@@ -45,8 +45,8 @@ class WorkSpider(scrapy.Spider):
             "location": self.parse_location(response=response),
             "years_of_experience": self.parse_experience(response=response),
             "salary": self.parse_salary(response=response),
-            "date_posted": "None",
-            "views_popularity": "None",
+            "date_posted": self.parse_date_posted(response=response),
+            "seniority_level": self.parse_seniority_level(response=response),
             "english_level": self.parse_eng_lvl(response=response),
             "technologies": self.parse_technologies(response=response),
             "source": "djinni.co"
@@ -101,6 +101,20 @@ class WorkSpider(scrapy.Spider):
 
         return "None"
 
+    def parse_date_posted(self, response: Response) -> str:
+        date_posted = response.css("time::attr(datetime)").get()
+        return date_posted
+
+    def parse_seniority_level(self, response: Response) -> str:
+        job_description = response.css("#job-description *::text").getall()
+        text = " ".join(job_description).strip().lower()
+
+        for level in SENIORITY_LEVELS:
+            if level in text:
+                return level.capitalize()
+
+        return "None"
+
     def parse_data_posted(self, response: Response) -> str:
         date = response.css("time::attr(datetime)").get()
         if date:
@@ -108,7 +122,7 @@ class WorkSpider(scrapy.Spider):
         return "None"
 
     def parse_eng_lvl(self, response: Response) -> str:
-        ENGLISH_LVLS = {
+        ENGLISH_LEVELS = {
             "b1": "intermediate",
             "b2": "upper-Intermediate",
             "c1": "advanced"
@@ -124,13 +138,13 @@ class WorkSpider(scrapy.Spider):
                 job_description = response.css("#job-description *::text").getall()
                 text = " ".join(job_description).strip()
 
-                for level_v in ENGLISH_LVLS.values():
+                for level_v in ENGLISH_LEVELS.values():
                     if level_v.lower() in text.lower():
                         return level_v.capitalize()
 
-                for level_k in ENGLISH_LVLS.keys():
-                    if level_k.lower() in ENGLISH_LVLS.keys():
-                        return ENGLISH_LVLS[level_k.lower()].capitalize()
+                for level_k in ENGLISH_LEVELS.keys():
+                    if level_k.lower() in ENGLISH_LEVELS.keys():
+                        return ENGLISH_LEVELS[level_k.lower()].capitalize()
 
                 return "None"
 

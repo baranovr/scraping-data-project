@@ -8,13 +8,13 @@ from django.shortcuts import render
 from multiprocessing import Process, Queue
 
 from scrape_items.djinni_scraper.djinni_scraper.spiders.djinni_spider import DjinniSpider
+from scrape_items.linkedin_scraper.linkedin_scraper.spiders.linkedin_spider import LinkedInSpider
 from scrape_items.work_scraper.work_scraper.spiders.work_spider import WorkSpider
 
 from scrapy.crawler import CrawlerProcess
 from scrapy.utils.project import get_project_settings
 from scrapy import signals
 from scrapy.signalmanager import dispatcher
-
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project.settings")
 django.setup()
@@ -57,12 +57,32 @@ def scrape_work(request):
     return JsonResponse(results, safe=False)
 
 
+def scrape_linkedin(request):
+    queue = Queue()
+    process = Process(target=run_spider, args=(LinkedInSpider, queue))
+    process.start()
+    process.join()
+
+    results = queue.get()
+    return JsonResponse(results, safe=False)
+
+
 def download_csv(request):
     response = HttpResponse(content_type="text/csv")
     response['Content-Disposition'] = 'attachment; filename="tech_stats.csv"'
     writer = csv.writer(response)
     writer.writerow(
-        ["Title", "Company", "Location", "Technology", "Experience", "Salary", "Date Posted", "Views", "Source"]
+        [
+            "Title",
+            "Company",
+            "Location",
+            "Technologies",
+            "Years_of_experience",
+            "Salary",
+            "Date Posted",
+            "Views",
+            "Source"
+        ]
     )
 
     for vacancy in JobListing.objects.all():

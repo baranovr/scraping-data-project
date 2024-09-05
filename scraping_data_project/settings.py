@@ -174,3 +174,8 @@ TECHNOLOGIES = [
         "SSL/TLS", "OAuth", "JWT", "bcrypt", "cryptography",
         "Pygame", "Panda3D", "PyOpenGL", "Cocos2d"
 ]
+
+SENIORITY_LEVELS = [
+    "intern", "junior", "middle", "mid", "senior", "lead", "principal",
+    "entry level", "mid-senior"
+]

@@ -6,7 +6,7 @@ import scrapy
 from scrapy.http.response import Response
 from selenium import webdriver
 
-from scraping_data_project.settings import USER_AGENT_LIST, TECHNOLOGIES
+from scraping_data_project.settings import USER_AGENT_LIST, TECHNOLOGIES, SENIORITY_LEVELS
 
 
 class DjinniSpider(scrapy.Spider):
@@ -44,49 +44,60 @@ class DjinniSpider(scrapy.Spider):
             "experience(years)": self.parse_experience(response=response),
             "salary": self.parse_salary(response=response),
             "date_posted": "None",
-            "views_popularity": "None",
+            "seniority_level": self.parse_seniority_level(response=response),
             "english_level": self.parse_eng_lvl(response=response),
             "technologies": self.parse_technologies(response=response),
             "source": "djinni.co"
         }
 
-    def parse_title(self, response: Response) -> None | str:
+    def parse_title(self, response: Response) -> str:
         title = response.css("h1::text").get()
         if title:
             return title.strip()
         return "None"
 
-    def parse_company(self, response: Response) -> None | str:
+    def parse_company(self, response: Response) -> str:
         company = response.css("a.job-details--title::text").get()
         if company:
             return company.strip()
         return "None"
 
-    def parse_location(self, response: Response) -> None | str:
+    def parse_location(self, response: Response) -> str:
         location = response.css("span.location-text::text").get()
         if location:
             return location.strip()
         return "None"
 
-    def parse_experience(self, response: Response) -> None | int | str:
+    def parse_experience(self, response: Response) -> None | str:
         experience_elements = response.css('ul.list-unstyled.list-mb-3 li strong.font-weight-600::text').getall()
         for element in experience_elements:
             element = element.strip().lower()
             if "years of experience" in element:
                 match = re.search(r'from\s+(\d+)\s+years?\s+of\s+experience', element)
                 if match:
-                    return int(match.group(1))
+                    return match.group(1)
             else:
                 return "None"
         return None
 
-    def parse_salary(self, response: Response) -> None | int | str:
+    def parse_salary(self, response: Response) -> str:
         salary = response.css("div.text b#salary-suggestion::text").get()
         if salary:
             return salary.replace("$", "").split('-')[0].strip()
         return "None"
 
-    def parse_eng_lvl(self, response: Response) -> None | str:
+    def parse_seniority_level(self, response: Response) -> str:
+        paragraphs = response.css('div.job-post-description p::text').getall()
+        strong_texts = response.css('div.job-post-description strong::text').getall()
+        all_text = ' '.join(paragraphs + strong_texts).lower()
+
+        for level in SENIORITY_LEVELS:
+            if level in all_text:
+                return level.capitalize()
+
+        return "None"
+
+    def parse_eng_lvl(self, response: Response) -> str:
         eng_lvl = response.css('ul.list-unstyled.list-mb-3 li strong.font-weight-600::text').get()
         if "mediate" in eng_lvl or "vance" in eng_lvl:
             return eng_lvl.replace("Only\n      from\n      ", "").replace("from\n      ", "").strip()
