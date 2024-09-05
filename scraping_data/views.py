@@ -46,7 +46,8 @@ def run_spider_linkedin(spider_class, queue):
     dispatcher.connect(crawler_results, signal=signals.item_scraped)
 
     process = CrawlerProcess({
-        'DOWNLOAD_DELAY': 5,
+        'DOWNLOAD_DELAY': 10,
+        'CONCURRENT_REQUESTS': 1,
         'RETRY_TIMES': 25,
         'RETRY_HTTP_CODES': [429]
     })
@@ -120,11 +121,6 @@ def download_csv(request):
             ]
         )
         return response
-
-
-def job_listings(request):
-    listings = JobListing.objects.all()
-    return render(request, 'job_listings.html', {'listings': listings})
 
 
 def index(request):

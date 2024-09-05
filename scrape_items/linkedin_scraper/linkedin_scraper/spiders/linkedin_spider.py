@@ -20,7 +20,7 @@ class LinkedInSpider(scrapy.Spider):
     name = "linkedin"
     api_url = "https://www.linkedin.com/jobs/search?keywords=Junior%2BPython%2BDeveloper&location=Ukraine&geoId=&trk=public_jobs_jobs-search-bar_search-submit"
 
-    max_requests = 500
+    max_requests = 300
     request_count = 0
 
     def start_requests(self) -> None:

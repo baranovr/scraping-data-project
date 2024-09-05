@@ -1,12 +1,19 @@
+import os
 import random
 import re
 from typing import Any
 
+import django
 import scrapy
 from scrapy.http.response import Response
 from selenium import webdriver
 
 from scraping_data_project.settings import TECHNOLOGIES, USER_AGENT_LIST, SENIORITY_LEVELS
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project.settings")
+django.setup()
+
+from scraping_data.models import JobListing
 
 
 class WorkSpider(scrapy.Spider):
@@ -39,18 +46,31 @@ class WorkSpider(scrapy.Spider):
             yield scrapy.Request(response.urljoin(next_page), callback=self.parse)
 
     def get_all_data(self, response: Response) -> dict:
-        yield {
+        data = {
             "title": self.parse_title(response=response),
             "company": self.parse_company(response=response),
             "location": self.parse_location(response=response),
-            "years_of_experience": self.parse_experience(response=response),
+            "experience(years)": self.parse_experience(response=response),
             "salary": self.parse_salary(response=response),
-            "date_posted": self.parse_date_posted(response=response),
+            "date_posted": "None",
             "seniority_level": self.parse_seniority_level(response=response),
             "english_level": self.parse_eng_lvl(response=response),
             "technologies": self.parse_technologies(response=response),
-            "source": "djinni.co"
+            "source": "work.ua"
         }
+        job_listing = JobListing(
+            title=data.get("title", ""),
+            company=data.get("company", ""),
+            location=data.get("location", ""),
+            technologies=data.get("technologies", ""),
+            years_of_experience=data.get("years_of_experience", ""),
+            english_level=data.get("english_level", ""),
+            seniority_level=data.get("seniority_level", ""),
+            date_posted=data.get("date_posted", ""),
+            source=data.get("source", "")
+        )
+        job_listing.save()
+        yield data
 
     def parse_title(self, response: Response) -> str:
         text = response.css("h1#h1-name::text").getall()

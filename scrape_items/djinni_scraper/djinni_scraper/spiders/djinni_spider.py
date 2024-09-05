@@ -1,12 +1,19 @@
+import os
 import re
 import random
 from typing import Any
 
+import django
 import scrapy
 from scrapy.http.response import Response
 from selenium import webdriver
 
 from scraping_data_project.settings import USER_AGENT_LIST, TECHNOLOGIES, SENIORITY_LEVELS
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project.settings")
+django.setup()
+
+from scraping_data.models import JobListing
 
 
 class DjinniSpider(scrapy.Spider):
@@ -37,7 +44,7 @@ class DjinniSpider(scrapy.Spider):
             yield response.follow(next_page, callback=self.parse)
 
     def get_all_data(self, response: Response) -> dict:
-        yield {
+        data = {
             "title": self.parse_title(response=response),
             "company": self.parse_company(response=response),
             "location": self.parse_location(response=response),
@@ -49,6 +56,19 @@ class DjinniSpider(scrapy.Spider):
             "technologies": self.parse_technologies(response=response),
             "source": "djinni.co"
         }
+        job_listing = JobListing(
+            title=data.get("title", ""),
+            company=data.get("company", ""),
+            location=data.get("location", ""),
+            technologies=data.get("technologies", ""),
+            years_of_experience=data.get("years_of_experience", ""),
+            english_level=data.get("english_level", ""),
+            seniority_level=data.get("seniority_level", ""),
+            date_posted=data.get("date_posted", ""),
+            source=data.get("source", "")
+        )
+        job_listing.save()
+        yield data
 
     def parse_title(self, response: Response) -> str:
         title = response.css("h1::text").get()
