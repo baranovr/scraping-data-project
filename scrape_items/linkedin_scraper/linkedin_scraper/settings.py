@@ -12,6 +12,9 @@ BOT_NAME = "linkedin_scraper"
 SPIDER_MODULES = ["linkedin_scraper.spiders"]
 NEWSPIDER_MODULE = "linkedin_scraper.spiders"
 
+REDIRECT_ENABLED = False
+METAREFRESH_ENABLED = False
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = "linkedin_scraper (+http://www.yourdomain.com)"
@@ -20,12 +23,13 @@ NEWSPIDER_MODULE = "linkedin_scraper.spiders"
 ROBOTSTXT_OBEY = True
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
+# CONCURRENT_REQUESTS = 32
 
 DOWNLOAD_DELAY = 5
 
 RETRY_TIMES = 25
 RETRY_HTTP_CODES = [429]
+
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay

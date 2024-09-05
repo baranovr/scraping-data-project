@@ -20,7 +20,7 @@ class LinkedInSpider(scrapy.Spider):
     name = "linkedin"
     api_url = "https://www.linkedin.com/jobs/search?keywords=Junior%2BPython%2BDeveloper&location=Ukraine&geoId=&trk=public_jobs_jobs-search-bar_search-submit"
 
-    max_requests = 250
+    max_requests = 500
     request_count = 0
 
     def start_requests(self) -> None:
@@ -93,19 +93,19 @@ class LinkedInSpider(scrapy.Spider):
         job_description = response.css(JOB_DESCRIPTION).getall()
         text = " ".join(job_description).strip()
 
-        ENGLISH_LEVELS = {
+        ENGLISH_LVLS = {
             "b1": "intermediate",
             "b2": "upper-Intermediate",
             "c1": "advanced"
         }
 
-        for level_v in ENGLISH_LEVELS.values():
+        for level_v in ENGLISH_LVLS.values():
             if level_v.lower() in text.lower():
                 return level_v.capitalize()
 
-        for level_k in ENGLISH_LEVELS.keys():
+        for level_k in ENGLISH_LVLS.keys():
             if level_k.lower() in text.lower():
-                return ENGLISH_LEVELS[level_k.lower()].capitalize()
+                return ENGLISH_LVLS[level_k.lower()].capitalize()
 
         return "None"
 

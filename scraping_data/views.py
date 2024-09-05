@@ -37,6 +37,26 @@ def run_spider(spider_class, queue):
     queue.put(results)
 
 
+def run_spider_linkedin(spider_class, queue):
+    results = []
+
+    def crawler_results(signal, sender, item, response, spider):
+        results.append(item)
+
+    dispatcher.connect(crawler_results, signal=signals.item_scraped)
+
+    process = CrawlerProcess({
+        'DOWNLOAD_DELAY': 5,
+        'RETRY_TIMES': 25,
+        'RETRY_HTTP_CODES': [429]
+    })
+
+    process.crawl(spider_class)
+    process.start()
+
+    queue.put(results)
+
+
 def scrape_djinni(request):
     queue = Queue()
     process = Process(target=run_spider, args=(DjinniSpider, queue))
@@ -59,7 +79,7 @@ def scrape_work(request):
 
 def scrape_linkedin(request):
     queue = Queue()
-    process = Process(target=run_spider, args=(LinkedInSpider, queue))
+    process = Process(target=run_spider_linkedin, args=(LinkedInSpider, queue))
     process.start()
     process.join()
 

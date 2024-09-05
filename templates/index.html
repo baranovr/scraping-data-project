@@ -8,6 +8,13 @@
 {% block content %}
 
   {% include "includes/navigation-light.html" %}
+    <style>
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+                </style>
 
   <section class="py-sm-7 py-5 position-relative">
     <div class="container">
@@ -167,7 +174,13 @@
                   </div>
                 <div id="loading" style="display:none;">
                   <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
-                  <p>Loading data, please wait...</p>
+                  <p style="color: red;
+                    font-family: 'Arial', sans-serif;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    animation: blink 1.5s infinite;"
+                    >Processing... Please wait
+                  </p>
                 </div>
                 <div id="result-content-djinni"></div>
               </div>
@@ -212,7 +225,12 @@
                         </div>
                         <div id="loading-work" style="display:none;">
                           <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
-                          <p>Loading data, please wait...</p>
+                          <p style="color: red; font-family: 'Arial', sans-serif;
+                            text-transform: uppercase;
+                            letter-spacing: 2px;
+                            animation: blink 1.5s infinite;"
+                            >Processing... Please wait
+                          </p>
                         </div>
                         <div id="result-content-work"></div>
                     </div>
@@ -220,128 +238,61 @@
           </div>
         </div>
       </div>
+      
 
 
 
-
-          <!-- -----------------------New block for else scraping----------------------- -->
-
-{#      <div class="row mt-5">  #}
-{#        <div class="col-lg-12">#}
-{#          <div class="card card-plain bg-white" style="border: 1px solid #66d432;">#}
-{#            <div class="card-body">#}
-{#              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Dou.ua</h5>#}
-{#              <p>Get the most recent job market data directly from jobs.dou.ua. Click the button below to start scraping data on Python developer positions.</p>#}
-{#              <button id="scrape-dou" class="btn btn-success">Scrape Dou</button>#}
-{#              <div id="scrape-results" class="mt-4" style="display:none;">#}
-{#                <h6>Scraping Results:</h6>#}
-{#                  <div class="row mt-3">#}
-{#                    <div class="col-lg-12">#}
-{#                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>#}
-{#                    </div>#}
-{#                  </div>#}
-{#                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
-{#                  <div class="row mt-5">#}
-{#                    <div class="col-lg-6">#}
-{#                        <canvas id="popularityChart"></canvas>#}
-{#                    </div>#}
-{#                    <div class="col-lg-6">#}
-{#                        <canvas id="salaryChart"></canvas>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div id="loading" style="display:none;">#}
-{#                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">#}
-{#                  <p>Loading data, please wait...</p>#}
-{#                </div>#}
-{#                <div id="result-content"></div>#}
-{#              </div>#}
-{#            </div>#}
-{#          </div>#}
-{#        </div>#}
-{#      </div>#}
-{#            #}
-{#            #}
-{#            #}
-{#      <div class="row mt-5">      #}
-{#        <div class="col-lg-12">#}
-{#          <div class="card card-plain bg-white" style="border: 1px solid #d60808;">#}
-{#            <div class="card-body">#}
-{#              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Robota.ua</h5>#}
-{#              <p>Get the most recent job market data directly from robota.ua. Click the button below to start scraping data on Python developer positions.</p>#}
-{#              <button id="scrape-robota" class="btn btn-warning">Scrape Robota</button>#}
-{#              <div id="scrape-results" class="mt-4" style="display:none;">#}
-{#                <h6>Scraping Results:</h6>#}
-{#                  <div class="row mt-3">#}
-{#                    <div class="col-lg-12">#}
-{#                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>#}
-{#                    </div>#}
-{#                  </div>#}
-{#                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
-{#                  <div class="row mt-5">#}
-{#                    <div class="col-lg-6">#}
-{#                        <canvas id="popularityChart"></canvas>#}
-{#                    </div>#}
-{#                    <div class="col-lg-6">#}
-{#                        <canvas id="salaryChart"></canvas>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div id="loading" style="display:none;">#}
-{#                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">#}
-{#                  <p>Loading data, please wait...</p>#}
-{#                </div>#}
-{#                <div id="result-content"></div>#}
-{#              </div>#}
-{#            </div>#}
-{#          </div>#}
-{#        </div>#}
-{#      </div>#}
-{#          #}
-{#          #}
-{#          #}
-{#      <div class="row mt-5">      #}
-{#        <div class="col-lg-12">#}
-{#          <div class="card card-plain bg-white" style="border: 1px solid #0dcaf0;">#}
-{#            <div class="card-body">#}
-{#              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from LinkedIn.com</h5>#}
-{#              <p>Get the most recent job market data directly from linkedin.com. Click the button below to start scraping data on Python developer positions.</p>#}
-{#              <button id="scrape-linkedin" class="btn btn-outline-info">Scrape LinkedIn</button>#}
-{#              <div id="scrape-results" class="mt-4" style="display:none;">#}
-{#                <h6>Scraping Results:</h6>#}
-{#                  <div class="row mt-3">#}
-{#                    <div class="col-lg-12">#}
-{#                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>#}
-{#                    </div>#}
-{#                  </div>#}
-{#                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>#}
-{#                  <div class="row mt-5">#}
-{#                    <div class="col-lg-6">#}
-{#                        <canvas id="popularityChart"></canvas>#}
-{#                    </div>#}
-{#                    <div class="col-lg-6">#}
-{#                        <canvas id="salaryChart"></canvas>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div id="loading" style="display:none;">#}
-{#                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">#}
-{#                  <p>Loading data, please wait...</p>#}
-{#                </div>#}
-{#                <div id="result-content"></div>#}
-{#              </div>#}
-{#            </div>#}
-{#          </div>#}
-{#           <button id="goToTopBtn" style="display:none; #}
-{#                          position:fixed; #}
-{#                          bottom:20px; #}
-{#                          right:20px; #}
-{#                          background-color:#007bff; #}
-{#                          color:white; #}
-{#                          border:none; #}
-{#                          padding:10px 15px; #}
-{#                          border-radius:5px;">Go to Top</button>#}
-{#        </div>#}
-{#      </div>#}
-            <button id="goToTopBtn"
-                          style="display:none;
+          <!-- -----------------------New block for LinkedIn scraping----------------------- -->
+      <div class="row mt-5">
+        <div class="col-lg-12">
+          <div class="card card-plain bg-white" style="border: 1px solid blue;">
+            <div class="card-body">
+              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from LinkedIn.com</h5>
+                <p>Get the most recent job market data directly from linkedin.com. Click the button below to start scraping data on Python developer positions.</p>
+                <p style="color: red; font-family: 'Times New Roman', Courier, monospace; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; animation: fadeIn 2s infinite;">
+                        Slow (due to API usage)
+                </p>  
+                <button id="scrape-linkedin" class="btn btn-outline-info">Scrape LinkedIn</button>
+                    <div id="scrape-results-linkedin" class="mt-4" style="display:none;">
+                      <h6>Scraping Results:</h6>
+                        <div class="row mt-3">
+                          <div class="col-lg-12">
+                            <button id="saveCsvLinkedIn" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
+                          </div>
+                        </div>
+                        <div class="row mt-5">
+                          <div class="col-lg-6">
+                            <canvas id="popularityChartLinkedIn"></canvas>
+                          </div>
+                          <div class="col-lg-6">
+                            <canvas id="seniorityChartLinkedIn"></canvas>
+                          </div>
+                        </div>
+                        <div class="row mt-5">
+                          <div class="col-lg-6">
+                            <canvas id="companyChartLinkedIn"></canvas>
+                          </div>
+                          <div class="col-lg-6">
+                            <canvas id="locationChartLinkedIn"></canvas>
+                          </div>
+                        </div>
+                        <div id="loading-linkedin" style="display:none;">
+                          <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
+                          <p style="color: red; font-family: 'Arial', sans-serif;
+                            text-transform: uppercase;
+                            letter-spacing: 2px;
+                            animation: blink 1.5s infinite;"
+                            >Processing... Please wait (may take 10+ minutes )
+                          </p>
+                        </div>
+                        <div id="result-content-linkedin"></div>
+                    </div>
+            </div>
+          </div>
+        </div>
+      </div>
+            
+         <button id="goToTopBtn" style="display:none;
                           position:fixed;
                           bottom:20px;
                           right:20px;
@@ -349,11 +300,9 @@
                           color:white;
                           border:none;
                           padding:10px 15px;
-                          border-radius:5px;">
-                      Go to Top
-                  </button>
-    </div>
-    </div>
+                          border-radius:5px;">Go to Top</button>     
+        </div>
+       </div>
       </div>
     </div>
   </section>
@@ -401,7 +350,7 @@ function createCharts(data) {
     });
 
     // Top 15 technologies
-    const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 15);
+    const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
     const techLabels = topTechs.map(item => item[0]);
     const techValues = topTechs.map(item => item[1]);
 
@@ -491,7 +440,7 @@ function createBarChart(canvasId, label, labels, data, backgroundColor, borderCo
         document.getElementById('loading').style.display = 'none';
 
         let resultContent = document.getElementById('result-content-djinni');
-        const limit = 0; // Modify this as per your needs
+        const limit = 0;
         const limitedData = data.slice(0, limit);
         resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
 
@@ -577,7 +526,7 @@ function createChartsWork(data) {
     });
 
     // Top 15 technologies
-    const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 15);
+    const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
     const techLabels = topTechs.map(item => item[0]);
     const techValues = topTechs.map(item => item[1]);
 
@@ -667,7 +616,7 @@ document.getElementById('scrape-work').addEventListener('click', function () {
         document.getElementById('loading-work').style.display = 'none';
 
         let resultContent = document.getElementById('result-content-work');
-        const limit = 0; // Modify this as per your needs
+        const limit = 0;
         const limitedData = data.slice(0, limit);
         resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
 
@@ -715,7 +664,178 @@ document.getElementById('scrape-work').addEventListener('click', function () {
         document.getElementById('result-content-work').innerHTML = '<p style="color:red;">Error occurred while scraping data.</p>';
     });
 });
+    
 
+    
+    
+    
+    
+    
+    
+    
+    <!-- ################################# LinkedIn functionality ################################# -->
+// Function to create charts
+function createChartsLinkedIn(data) {
+    const seniorityCounts = {};
+    const techCounts = {};
+    const companyData = {};
+    const locationData = {};
+
+    data.forEach(job => {
+        // Seniority level counts
+        const seniority = job.seniority_level;
+        seniorityCounts[seniority] = (seniorityCounts[seniority] || 0) + 1;
+
+        // Technology counts
+        job.technologies.forEach(tech => {
+            techCounts[tech] = (techCounts[tech] || 0) + 1;
+        });
+
+        // Company data
+        companyData[job.company] = (companyData[job.company] || 0) + 1;
+
+        // Location data
+        locationData[job.location] = (locationData[job.location] || 0) + 1;
+    });
+
+    // Top 5 seniority levels
+    const topSeniorityLevels = Object.entries(seniorityCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const seniorityLabels = topSeniorityLevels.map(item => item[0]);
+    const seniorityValues = topSeniorityLevels.map(item => item[1]);
+
+    // Top 15 technologies
+    const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const techLabels = topTechs.map(item => item[0]);
+    const techValues = topTechs.map(item => item[1]);
+
+    // Top 10 companies
+    const topCompanies = Object.entries(companyData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const companyLabels = topCompanies.map(item => item[0]);
+    const companyValues = topCompanies.map(item => item[1]);
+
+    // Top 10 locations
+    const topLocations = Object.entries(locationData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const locationLabels = topLocations.map(item => item[0]);
+    const locationValues = topLocations.map(item => item[1]);
+
+    // Create charts
+    createBarChartLinkedIn('seniorityChartLinkedIn', 'Top 5 Seniority Levels', seniorityLabels, seniorityValues, 'rgba(153, 102, 255, 0.6)', 'rgba(153, 102, 255, 1)');
+    createBarChartLinkedIn('popularityChartLinkedIn', 'Top 15 Technologies', techLabels, techValues, 'rgba(54, 162, 235, 0.6)', 'rgba(54, 162, 235, 1)');
+    createBarChartLinkedIn('companyChartLinkedIn', 'Top 10 Companies', companyLabels, companyValues, 'rgba(255, 99, 132, 0.6)', 'rgba(255, 99, 132, 1)');
+    createBarChartLinkedIn('locationChartLinkedIn', 'Top 10 Locations', locationLabels, locationValues, 'rgba(255, 206, 86, 0.6)', 'rgba(255, 206, 86, 1)');
+}
+
+function createBarChartLinkedIn(canvasId, label, labels, data, backgroundColor, borderColor) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            indexAxis: canvasId === 'popularityChartLinkedIn' ? 'y' : 'x',
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+function saveToCsvLinkedIn(data) {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Title,Company,Location,Seniority,Salary,Technologies,Source\n";
+
+    data.forEach(job => {
+        const technologies = job.technologies.join('; ');
+        const row = `${job.title},${job.company},${job.location},${job.seniority_level},${job.salary || ''},${technologies},${job.source}`;
+        csvContent += row + "\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "linkedin.csv");
+    document.body.appendChild(link);
+
+    link.click();
+    document.body.removeChild(link);
+}
+
+document.getElementById('scrape-linkedin').addEventListener('click', function () {
+    document.getElementById('scrape-results-linkedin').style.display = 'block';
+    document.getElementById('loading-linkedin').style.display = 'block';
+
+    fetch('{% url "scraping_data:scrape_linkedin" %}', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('loading-linkedin').style.display = 'none';
+
+        let resultContent = document.getElementById('result-content-linkedin');
+        const limit = 0;
+        const limitedData = data.slice(0, limit);
+        resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+
+        if (data.length > limit) {
+            // Create "View Results" button
+            const viewAllBtn = document.createElement('button');
+            viewAllBtn.textContent = `View Results (${data.length - limit})`;
+            viewAllBtn.className = 'btn btn-primary mt-3';
+
+            // Create "Hide Results" button
+            const hideResultsBtn = document.createElement('button');
+            hideResultsBtn.textContent = 'Hide Results';
+            hideResultsBtn.className = 'btn btn-secondary mt-3';
+            hideResultsBtn.style.display = 'none';
+
+            // Show full results on clicking "View Results"
+            viewAllBtn.onclick = function () {
+                resultContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                this.style.display = 'none';
+                hideResultsBtn.style.display = 'inline-block';
+            };
+
+            // Hide full results and revert to limited view on clicking "Hide Results"
+            hideResultsBtn.onclick = function () {
+                resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+                this.style.display = 'none';
+                viewAllBtn.style.display = 'inline-block';
+            };
+
+            // Append buttons to result content
+            resultContent.appendChild(viewAllBtn);
+            resultContent.appendChild(hideResultsBtn);
+        }
+
+        createChartsLinkedIn(data);
+
+        document.getElementById('saveCsvLinkedIn').style.display = 'inline-block';
+        document.getElementById('saveCsvLinkedIn').addEventListener('click', function() {
+            saveToCsvLinkedIn(data);
+        });
+
+    })
+    .catch(error => {
+        document.getElementById('loading-linkedin').style.display = 'none';
+        document.getElementById('result-content-linkedin').innerHTML = '<p style="color:red;">Error occurred while scraping data.</p>';
+    });
+});
+    
 </script>
 
 {% endblock javascripts %}
