@@ -124,10 +124,17 @@ class WorkSpider(scrapy.Spider):
 
         return None
 
-    def parse_date_posted(self, response: Response) -> datetime | None:
+    def parse_date_posted(self, response) -> datetime.date | None:
         date_posted = response.css("time::attr(datetime)").get()
+
         if date_posted:
-            return datetime.strptime(date_posted.strip(), "%Y-%m-%d")
+            try:
+                date_object = datetime.strptime(date_posted.strip(), "%Y-%m-%dT%H:%M:%S%z")
+            except ValueError:
+                date_object = datetime.strptime(date_posted.strip(), "%Y-%m-%d")
+
+            return date_object.date()
+
         return None
 
     def parse_seniority_level(self, response: Response) -> str:
