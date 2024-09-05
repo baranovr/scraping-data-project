@@ -1,7 +1,7 @@
 import os
 from typing import Any
 from decimal import Decimal
-from datetime import datetime
+from datetime import datetime, date
 
 import django
 import scrapy
@@ -11,10 +11,6 @@ from scrapy.http.response import Response
 
 from scraping_data_project.settings import TECHNOLOGIES
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "scraping_data_project.settings")
-django.setup()
-
-from scraping_data.models import JobListing
 
 JOB_DESCRIPTION = (
     ".show-more-less-html__markup.show-more-less-html__markup--clamp-after-5 p::text, "
@@ -22,6 +18,7 @@ JOB_DESCRIPTION = (
     ".show-more-less-html__markup.show-more-less-html__markup--clamp-after-5 p strong::text, "
     ".show-more-less-html__markup.show-more-less-html__markup--clamp-after-5 ul li::text"
 )
+
 
 class LinkedInSpider(scrapy.Spider):
     name = "linkedin"
@@ -51,10 +48,11 @@ class LinkedInSpider(scrapy.Spider):
                 return
 
             job_item = {
-                "title": job.css("h3.base-search-card__title::text").get(default="").strip(),
-                "company": job.css("h4.base-search-card__subtitle a::text").get(default="").strip(),
-                "location": job.css("span.job-search-card__location::text").get(default="").strip().split(",")[0],
-                "date_posted": self.parse_date(job.css("time.job-search-card__listdate::attr(datetime)").get(default="")),
+                "title": job.css("h3.base-search-card__title::text").get(default="Not specified").strip(),
+                "company": job.css("h4.base-search-card__subtitle a::text").get(default="Not specified").strip(),
+                "location": job.css(
+                    "span.job-search-card__location::text"
+                ).get(default="Not specified").strip().split(",")[0],
                 "source": response.url
             }
 
@@ -77,13 +75,13 @@ class LinkedInSpider(scrapy.Spider):
                 meta={"first_job_on_page": first_job_on_page},
             )
 
-    def parse_technologies(self, response: Response) -> str:
+    def parse_technologies(self, response: Response) -> list[str]:
         job_description = response.css(JOB_DESCRIPTION).getall()
 
-        text = " ".join(job_description).strip()
-        technologies = [tech for tech in TECHNOLOGIES if tech.lower() in text.lower()]
+        text = " ".join(job_description).strip().lower()
+        technologies = [tech for tech in TECHNOLOGIES if tech.lower() in text]
 
-        return ", ".join(technologies)
+        return technologies
 
     def parse_years_of_experience(self, response: Response) -> int | None:
         job_description = response.css(JOB_DESCRIPTION).getall()
@@ -94,7 +92,7 @@ class LinkedInSpider(scrapy.Spider):
             return int(match.group(1))
         return None
 
-    def parse_eng_lvl(self, response: Response) -> str:
+    def parse_eng_lvl(self, response: Response) -> str | None:
         job_description = response.css(JOB_DESCRIPTION).getall()
         text = " ".join(job_description).strip()
 
@@ -112,24 +110,29 @@ class LinkedInSpider(scrapy.Spider):
             if level_k.lower() in text.lower():
                 return ENGLISH_LVLS[level_k.lower()].capitalize()
 
-        return ""
+        return None
 
     def parse_salary(self, response: Response) -> Decimal | None:
         # LinkedIn typically doesn't provide salary information, so we'll return None
         return None
 
-    def parse_seniority_level(self, response: Response) -> str:
+    def parse_seniority_level(self, response: Response) -> str | None:
         seniority_level = response.css(
             "span.description__job-criteria-text::text"
-        ).get(default="").replace("level", "").strip()
-        return seniority_level if seniority_level else "Not specified"
+        ).get().replace("level", "")
+        return seniority_level.strip() if seniority_level else None
 
-    def parse_date(self, date_string: str) -> datetime | None:
-        if date_string:
+    def parse_date_posted(self, response: Response) -> date | None:
+        date_posted = response.css("time.job-search-card__listdate::attr(datetime)").get()
+
+        if date_posted:
             try:
-                return datetime.strptime(date_string.strip(), "%Y-%m-%d")
+                date_str = date_posted.strip()[:10]
+                date_object = datetime.strptime(date_str, "%Y-%m-%d")
+                return date_object.date()
             except ValueError:
-                pass
+                return None
+
         return None
 
     def parse_detail(self, response: Response) -> None:
@@ -140,19 +143,6 @@ class LinkedInSpider(scrapy.Spider):
         job_item["english_level"] = self.parse_eng_lvl(response)
         job_item["seniority_level"] = self.parse_seniority_level(response)
         job_item["salary"] = self.parse_salary(response)
-
-        job_listing = JobListing(
-            title=job_item["title"],
-            company=job_item["company"],
-            location=job_item["location"],
-            years_of_experience=job_item["years_of_experience"],
-            salary=job_item["salary"],
-            english_level=job_item["english_level"],
-            technologies=job_item["technologies"],
-            seniority_level=job_item["seniority_level"],
-            date_posted=job_item["date_posted"],
-            source=job_item["source"]
-        )
-        job_listing.save()
+        job_item["date_posted"] = self.parse_date_posted(response)
 
         yield job_item

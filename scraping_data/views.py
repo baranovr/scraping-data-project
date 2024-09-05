@@ -16,7 +16,7 @@ from scrapy.utils.project import get_project_settings
 from scrapy import signals
 from scrapy.signalmanager import dispatcher
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "scraping_data_project.settings")
 django.setup()
 
 from scraping_data.models import JobListing
@@ -30,28 +30,11 @@ def run_spider(spider_class, queue):
 
     dispatcher.connect(crawler_results, signal=signals.item_scraped)
 
-    process = CrawlerProcess(get_project_settings())
-    process.crawl(spider_class)
-    process.start()
-
-    queue.put(results)
-
-
-def run_spider_linkedin(spider_class, queue):
-    results = []
-
-    def crawler_results(signal, sender, item, response, spider):
-        results.append(item)
-
-    dispatcher.connect(crawler_results, signal=signals.item_scraped)
-
     process = CrawlerProcess({
-        'DOWNLOAD_DELAY': 10,
-        'CONCURRENT_REQUESTS': 1,
+        'DOWNLOAD_DELAY': 5,
         'RETRY_TIMES': 25,
         'RETRY_HTTP_CODES': [429]
     })
-
     process.crawl(spider_class)
     process.start()
 
@@ -80,7 +63,7 @@ def scrape_work(request):
 
 def scrape_linkedin(request):
     queue = Queue()
-    process = Process(target=run_spider_linkedin, args=(LinkedInSpider, queue))
+    process = Process(target=run_spider, args=(LinkedInSpider, queue))
     process.start()
     process.join()
 
@@ -97,11 +80,12 @@ def download_csv(request):
             "Title",
             "Company",
             "Location",
-            "Technologies",
-            "Years_of_experience",
+            "Years of experience",
             "Salary",
+            "Seniority level"
+            "English level"
+            "Technologies"
             "Date Posted",
-            "Views",
             "Source"
         ]
     )
@@ -112,11 +96,12 @@ def download_csv(request):
                 vacancy.title,
                 vacancy.company,
                 vacancy.location,
-                vacancy.technology,
-                vacancy.experience,
+                vacancy.years_of_experience,
                 vacancy.salary,
+                vacancy.seniority_level,
+                vacancy.english_level,
+                vacancy.technologies,
                 vacancy.date_posted,
-                vacancy.views_popularity,
                 vacancy.source
             ]
         )
