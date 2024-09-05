@@ -140,14 +140,16 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 USER_AGENT_LIST = [
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-        'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0'
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:90.0) Gecko/20100101 Firefox/90.0',
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15',
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.63 Safari/537.36',
 ]
 
 TECHNOLOGIES = [
-        "Django", "Flask", "FastAPI", "RESTful APIs", "Pyramid", "Tornado", "Bottle", "CherryPy",
-        "PostgreSQL", "MySQL", "SQLite", "MongoDB", "Redis", "Cassandra", "Oracle DB",
+        "Django", "Flask", "FastAPI", "RESTful APIs", "Pyramid", "Tornado", "Bottle", "CherryPy", "ArcGIS",
+        "PostgreSQL", "PostGIS", "MySQL", "SQLite", "MongoDB", "Redis", "Cassandra", "Oracle DB", "OOP",
         "Elasticsearch", "DynamoDB",
         "AWS", "EC2", "S3", "RDS", "Lambda", "Google Cloud Platform", "Microsoft Azure", "Heroku",
         "DigitalOcean",
@@ -160,7 +162,7 @@ TECHNOLOGIES = [
         "asyncio", "Twisted", "Celery", "aiohttp", "gevent",
         "TensorFlow", "PyTorch", "Keras", "Scikit-learn", "Pandas", "NumPy", "Matplotlib",
         "SciPy", "XGBoost", "LightGBM", "OpenCV",
-        "Apache Hadoop", "Apache Spark", "Apache Kafka", "Dask", "Airflow", "Luigi",
+        "Hadoop", "Spark", "Kafka", "Dask", "Airflow", "Luigi",
         "Matplotlib", "Seaborn", "Plotly", "Bokeh", "Dash",
         "JavaScript", "TypeScript", "React", "Angular", "Vue.js", "HTML", "CSS", "Bootstrap",
         "jQuery",
