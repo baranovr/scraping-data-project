@@ -2,6 +2,8 @@ import os
 import random
 import re
 from typing import Any
+from decimal import Decimal
+from datetime import datetime
 
 import django
 import scrapy
@@ -10,7 +12,7 @@ from selenium import webdriver
 
 from scraping_data_project.settings import TECHNOLOGIES, USER_AGENT_LIST, SENIORITY_LEVELS
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "your_project.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "scraping_data_project.settings")
 django.setup()
 
 from scraping_data.models import JobListing
@@ -50,24 +52,26 @@ class WorkSpider(scrapy.Spider):
             "title": self.parse_title(response=response),
             "company": self.parse_company(response=response),
             "location": self.parse_location(response=response),
-            "experience(years)": self.parse_experience(response=response),
+            "years_of_experience": self.parse_experience(response=response),
             "salary": self.parse_salary(response=response),
-            "date_posted": "None",
+            "date_posted": self.parse_date_posted(response=response),
             "seniority_level": self.parse_seniority_level(response=response),
             "english_level": self.parse_eng_lvl(response=response),
             "technologies": self.parse_technologies(response=response),
-            "source": "work.ua"
+            "source": response.url
         }
+
         job_listing = JobListing(
-            title=data.get("title", ""),
-            company=data.get("company", ""),
-            location=data.get("location", ""),
-            technologies=data.get("technologies", ""),
-            years_of_experience=data.get("years_of_experience", ""),
-            english_level=data.get("english_level", ""),
-            seniority_level=data.get("seniority_level", ""),
-            date_posted=data.get("date_posted", ""),
-            source=data.get("source", "")
+            title=data["title"],
+            company=data["company"],
+            location=data["location"],
+            years_of_experience=data["years_of_experience"],
+            salary=data["salary"],
+            english_level=data["english_level"],
+            technologies=", ".join(data["technologies"]),
+            seniority_level=data["seniority_level"],
+            date_posted=data["date_posted"],
+            source=data["source"]
         )
         job_listing.save()
         yield data
@@ -75,7 +79,7 @@ class WorkSpider(scrapy.Spider):
     def parse_title(self, response: Response) -> str:
         text = response.css("h1#h1-name::text").getall()
         title = " ".join([t.strip() for t in text])
-        return title.strip() if title else "None"
+        return title.strip() if title else ""
 
     def parse_company(self, response: Response) -> str:
         company_li = response.css("li")
@@ -83,9 +87,9 @@ class WorkSpider(scrapy.Spider):
         for li in company_li:
             if li.css("span.glyphicon-company"):
                 company = li.css("span.strong-500::text").get()
-                return company.strip() if company and "грн" not in company else "None"
+                return company.strip() if company and "грн" not in company else ""
 
-        return "None"
+        return ""
 
     def parse_location(self, response: Response) -> str:
         location_not_remote = response.css("li:has(span.glyphicon-map-marker)")
@@ -93,37 +97,38 @@ class WorkSpider(scrapy.Spider):
         if location_not_remote:
             location = location_not_remote.css("::text").getall()
             location = "".join(location).strip().split(",")[0]
-            return location if location else "None"
+            return location if location else ""
         else:
             return "Remote"
 
-    def parse_experience(self, response: Response) -> str:
+    def parse_experience(self, response: Response) -> int | None:
         experience = response.css("li:has(span.glyphicon-tick)")
         if experience:
             experience = experience.css("::text").getall()
-            for experience in experience:
-                if "рок" in experience:
-                    match = re.search(r'\d+', experience)
-                    return match.group(0) if match else "None"
+            for exp in experience:
+                if "рок" in exp:
+                    match = re.search(r'\d+', exp)
+                    if match:
+                        return int(match.group(0))
 
-        return "None"
+        return None
 
-    def parse_salary(self, response: Response) -> str:
+    def parse_salary(self, response: Response) -> Decimal | None:
         salary_li = response.css("li")
         for li in salary_li:
             if li.css("span.glyphicon-hryvnia"):
                 salary = response.css("span.strong-500::text").get().replace("&thinsp;", " ")
                 match = re.search(r'\d+', salary)
                 if match:
-                    return match.group(0)
-                else:
-                    "None"
+                    return Decimal(match.group(0))
 
-        return "None"
+        return None
 
-    def parse_date_posted(self, response: Response) -> str:
+    def parse_date_posted(self, response: Response) -> datetime | None:
         date_posted = response.css("time::attr(datetime)").get()
-        return date_posted
+        if date_posted:
+            return datetime.strptime(date_posted.strip(), "%Y-%m-%d")
+        return None
 
     def parse_seniority_level(self, response: Response) -> str:
         job_description = response.css("#job-description *::text").getall()
@@ -133,13 +138,7 @@ class WorkSpider(scrapy.Spider):
             if level in text:
                 return level.capitalize()
 
-        return "None"
-
-    def parse_data_posted(self, response: Response) -> str:
-        date = response.css("time::attr(datetime)").get()
-        if date:
-            return date.strip()
-        return "None"
+        return "Not specified"
 
     def parse_eng_lvl(self, response: Response) -> str:
         ENGLISH_LEVELS = {
@@ -163,12 +162,12 @@ class WorkSpider(scrapy.Spider):
                         return level_v.capitalize()
 
                 for level_k in ENGLISH_LEVELS.keys():
-                    if level_k.lower() in ENGLISH_LEVELS.keys():
+                    if level_k.lower() in text.lower():
                         return ENGLISH_LEVELS[level_k.lower()].capitalize()
 
-                return "None"
+        return ""
 
-    def parse_technologies(self, response: Response) -> list[Any]:
+    def parse_technologies(self, response: Response) -> list[str]:
         job_description = response.css("#job-description *::text").getall()
         text = " ".join(job_description).strip()
 
