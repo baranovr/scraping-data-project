@@ -1,7 +1,7 @@
 # Job Listings Technology Analysis
 
 
-![python](templates/for_readme/python.png)<br>
+![python](scaping/templates/for_readme/python.png)<br>
 ### This service provides you with up-to-date insights into the most demanded technologies in the tech job market, specifically tailored for Python developers. Whether you're a beginner or an experienced professional, understanding which technologies are currently in demand is crucial for advancing your career.
 ## Content
 
@@ -71,7 +71,7 @@ python manage.py runserver
 
 ### Examples
 
-![example](templates/for_readme/example.png)<br>
+![example](scaping/templates/for_readme/example.png)<br>
 
 ```csv
 Title,Company,Location,Years_of_experience,Salary_$,Seniority_level,English_level,Technologies,Date_Posted,Source
@@ -86,4 +86,4 @@ RoboDK Engineer and Consultant,A-LISTWARE,Ukraine,3,,,Intermediate,[],,djinni.co
 ...
 ```
 
-![bar](templates/for_readme/bar.png)<br>
+![bar](scaping/templates/for_readme/bar.png)<br>
