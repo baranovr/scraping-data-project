@@ -80,12 +80,12 @@ def download_csv(request):
             "Title",
             "Company",
             "Location",
-            "Years of experience",
+            "Years_of_experience",
             "Salary",
-            "Seniority level"
-            "English level"
-            "Technologies"
-            "Date Posted",
+            "Seniority_level",
+            "English_level",
+            "Technologies",
+            "Date_Posted",
             "Source"
         ]
     )
@@ -105,7 +105,7 @@ def download_csv(request):
                 vacancy.source
             ]
         )
-        return response
+    return response
 
 
 def index(request):

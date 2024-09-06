@@ -1,11 +1,7 @@
-import os
+import json
 import re
 import random
-from typing import Any
-from decimal import Decimal
-from datetime import datetime
 
-import django
 import scrapy
 from scrapy.http.response import Response
 from selenium import webdriver
@@ -51,21 +47,31 @@ class DjinniSpider(scrapy.Spider):
             "english_level": self.parse_eng_lvl(response=response),
             "technologies": self.parse_technologies(response=response),
             "date_posted": self.parse_date_posted(response=response),
-            "source": response.url
+            "source": "djinni.co"
         }
-        yield data
+        yield self.format_data(data)
 
-    def parse_title(self, response: Response) -> str:
+    def format_data(self, data: dict) -> dict:
+        for key, value in data.items():
+            if value is None:
+                data[key] = ""
+
+            if isinstance(value, list):
+                data[key] = json.dumps(value)
+
+        return data
+
+    def parse_title(self, response: Response) -> str | None:
         title = response.css("h1::text").get()
-        return title.strip() if title else "Not specified"
+        return title.strip() if title else None
 
-    def parse_company(self, response: Response) -> str:
+    def parse_company(self, response: Response) -> str | None:
         company = response.css("a.job-details--title::text").get()
-        return company.strip() if company else "Not specified"
+        return company.strip() if company else None
 
-    def parse_location(self, response: Response) -> str:
+    def parse_location(self, response: Response) -> str | None:
         location = response.css("span.location-text::text").get()
-        return location.strip() if location else "Not specified"
+        return location.strip() if location else None
 
     def parse_years_of_experience(self, response: Response) -> int | None:
         experience_elements = response.css('ul.list-unstyled.list-mb-3 li strong.font-weight-600::text').getall()
@@ -75,19 +81,20 @@ class DjinniSpider(scrapy.Spider):
                 match = re.search(r'from\s+(\d+)\s+years?\s+of\s+experience', element)
                 if match:
                     return int(match.group(1))
+
         return None
 
-    def parse_salary(self, response: Response) -> Decimal | None:
+    def parse_salary(self, response: Response) -> int | None:
         salary = response.css("div.text b#salary-suggestion::text").get()
         if salary:
             salary_value = salary.replace("$", "").split('-')[0].strip()
             try:
-                return Decimal(salary_value)
-            except:
+                return int(salary_value)
+            except ValueError:
                 return None
         return None
 
-    def parse_date_posted(self, response: Response) -> datetime | None:
+    def parse_date_posted(self, response: Response) -> None:
         # Djinni doesn't provide a clear date posted, so we'll return None
         return None
 
@@ -112,13 +119,13 @@ class DjinniSpider(scrapy.Spider):
     def parse_technologies(self, response: Response) -> list[str]:
         paragraphs = response.css('div.job-post-description p::text').getall()
         strong_texts = response.css('div.job-post-description strong::text').getall()
-        all_text = ' '.join(paragraphs + strong_texts)
+        all_text = ' '.join(paragraphs + strong_texts).lower()
 
         found_technologies = []
 
         if all_text:
             for tech in TECHNOLOGIES:
-                if re.search(r'\b' + re.escape(tech.lower()) + r'\b', all_text.lower(), re.IGNORECASE):
+                if re.search(r'\b' + re.escape(tech.lower()) + r'\b', all_text, re.IGNORECASE):
                     found_technologies.append(tech)
 
         return found_technologies

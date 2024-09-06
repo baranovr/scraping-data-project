@@ -194,7 +194,7 @@
          <!-- -----------------------New block for Work.ua scraping----------------------- -->
       <div class="row mt-5">
         <div class="col-lg-12">
-          <div class="card card-plain bg-white" style="border: 1px solid blue;">
+          <div class="card card-plain bg-white" style="border: 1px solid #3acaeb;">
             <div class="card-body">
               <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Work.ua</h5>
                 <p>Get the most recent job market data directly from Work.ua. Click the button below to start scraping data on Python developer positions.</p>
@@ -282,7 +282,7 @@
                             text-transform: uppercase;
                             letter-spacing: 2px;
                             animation: blink 1.5s infinite;"
-                            >Processing... Please wait (may take 10+ minutes )
+                            >Processing... Please wait (may take 5+ minutes )
                           </p>
                         </div>
                         <div id="result-content-linkedin"></div>
@@ -319,7 +319,18 @@
     
     <!-- ################################# Djinni functionality ################################# -->
     // Function to create charts for Djinni.co
-function createCharts(data) {
+function preprocessDataForDjinniCharts(data) {
+    return data.map(job => ({
+        ...job,
+        salary: job.salary === "" ? null : parseInt(job.salary),
+        years_of_experience: job.years_of_experience === "" ? null : parseInt(job.years_of_experience),
+        technologies: job.technologies === "" ? [] : JSON.parse(job.technologies),
+        date_posted: job.date_posted === "" ? null : new Date(job.date_posted)
+    }));
+}
+    
+function createCharts(rawData) {
+    const data = preprocessDataForDjinniCharts(rawData)  
     const techCounts = {};
     const salaryByLocation = {};
     const companyData = {};
@@ -408,26 +419,44 @@ function createBarChart(canvasId, label, labels, data, backgroundColor, borderCo
     });
 }
 
-    function saveToCsv(data) {
-        let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "Title,Company,Location,Experience,Salary,Technologies,Source\n";
+// Function to save data to CSV
+function saveToCsv(data) {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Title,Company,Location,Years_of_experience,Salary_$,Seniority_level,English_level,Technologies,Date_Posted,Source\n";
 
-        data.forEach(job => {
-            const technologies = job.technologies.join('; ');
-            const row = `${job.title},${job.company},${job.location},${job["years_of_experience"] || ''},${job.salary || ''},${technologies},${job.source}`;
-            csvContent += row + "\n";
+    data.forEach(job => {
+        const technologies = Array.isArray(job.technologies) ? 
+            JSON.stringify(job.technologies).replace(/,/g, ';') : 
+            job.technologies;
+        
+        const row = [
+            job.title,
+            job.company,
+            job.location,
+            job.years_of_experience,
+            job.salary,
+            job.seniority_level,
+            job.english_level,
+            technologies,
+            job.date_posted,
+            job.source
+        ].map(item => {
+            if (item === null || item === undefined) return '';
+            return item.toString().replace(/,/g, ';');
         });
+        
+        csvContent += row.join(',') + "\n";
+    });
 
-        const encodedUri = encodeURI(csvContent);
-        const link = document.createElement("a");
-        link.setAttribute("href", encodedUri);
-        link.setAttribute("download", "djinni.csv");
-        document.body.appendChild(link);
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "djinni.csv");
+    document.body.appendChild(link);
 
-        link.click();
-        document.body.removeChild(link);
-    }
-
+    link.click();
+    document.body.removeChild(link);
+}
     document.getElementById('scrape-djinni').addEventListener('click', function () {
     document.getElementById('scrape-results-djinni').style.display = 'block';
     document.getElementById('loading').style.display = 'block';
@@ -450,29 +479,14 @@ function createBarChart(canvasId, label, labels, data, backgroundColor, borderCo
             viewAllBtn.textContent = `View Results (${data.length - limit})`;
             viewAllBtn.className = 'btn btn-primary mt-3';
 
-            // Create "Hide Results" button
-            const hideResultsBtn = document.createElement('button');
-            hideResultsBtn.textContent = 'Hide Results';
-            hideResultsBtn.className = 'btn btn-secondary mt-3';
-            hideResultsBtn.style.display = 'none';
-
             // Show full results on clicking "View Results"
             viewAllBtn.onclick = function () {
                 resultContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
                 this.style.display = 'none';
-                hideResultsBtn.style.display = 'inline-block';
             };
 
-            // Hide full results and revert to limited view on clicking "Hide Results"
-            hideResultsBtn.onclick = function () {
-                resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
-                this.style.display = 'none';
-                viewAllBtn.style.display = 'inline-block';
-            };
-
-            // Append buttons to result content
+            // Append button to result content
             resultContent.appendChild(viewAllBtn);
-            resultContent.appendChild(hideResultsBtn);
         }
 
         createCharts(data);
@@ -485,7 +499,7 @@ function createBarChart(canvasId, label, labels, data, backgroundColor, borderCo
     })
     .catch(error => {
         document.getElementById('loading').style.display = 'none';
-        document.getElementById('result-content-djinni').innerHTML = '<p style="color:red;">Error occurred while scraping data.</p>';
+        document.getElementById('result-content-djinni').innerHTML = '<p style="color:red;">Error occurred while scraping data (You may try refresh the page and start again).</p>';
     });
 });
 
@@ -494,8 +508,19 @@ function createBarChart(canvasId, label, labels, data, backgroundColor, borderCo
 
 
     <!-- ################################# Work functionality ################################# -->
+function preprocessDataForWorkCharts(data) {
+    return data.map(job => ({
+        ...job,
+        salary: job.salary === "" ? null : parseInt(job.salary),
+        years_of_experience: job.years_of_experience === "" ? null : parseInt(job.years_of_experience),
+        technologies: job.technologies === "" ? [] : JSON.parse(job.technologies),
+        date_posted: job.date_posted === "" ? null : new Date(job.date_posted)
+    }));
+}
+
 // Function to create charts
-function createChartsWork(data) {
+function createChartsWork(rawData) {
+    const data = preprocessDataForWorkCharts(rawData);
     const techCounts = {};
     const salaryByLocation = {};
     const companyData = {};
@@ -509,8 +534,8 @@ function createChartsWork(data) {
 
         // Salary data by location
         const location = job.location;
-        const salary = parseInt(job.salary);
-        if (location && !isNaN(salary)) {
+        const salary = job.salary;
+        if (location && salary !== null) {
             if (salaryByLocation[location]) {
                 salaryByLocation[location].push(salary);
             } else {
@@ -584,14 +609,33 @@ function createBarChartWork(canvasId, label, labels, data, backgroundColor, bord
     });
 }
 
+// Function to save data to CSV
 function saveToCsvWork(data) {
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Title,Company,Location,Experience,Salary,Technologies,Source\n";
+    csvContent += "Title,Company,Location,Years_of_experience,Salary_₴K,Seniority_level,English_level,Technologies,Date_Posted,Source\n";
 
     data.forEach(job => {
-        const technologies = job.technologies.join('; ');
-        const row = `${job.title},${job.company},${job.location},${job["experience(years)"] || ''},${job.salary || ''},${technologies},${job.source}`;
-        csvContent += row + "\n";
+        const technologies = Array.isArray(job.technologies) ? 
+            JSON.stringify(job.technologies).replace(/,/g, ';') : 
+            job.technologies;
+        
+        const row = [
+            job.title,
+            job.company,
+            job.location,
+            job.years_of_experience,
+            job.salary,
+            job.seniority_level,
+            job.english_level,
+            technologies,
+            job.date_posted,
+            job.source
+        ].map(item => {
+            if (item === null || item === undefined) return '';
+            return item.toString().replace(/,/g, ';');
+        });
+        
+        csvContent += row.join(',') + "\n";
     });
 
     const encodedUri = encodeURI(csvContent);
@@ -626,29 +670,14 @@ document.getElementById('scrape-work').addEventListener('click', function () {
             viewAllBtn.textContent = `View Results (${data.length - limit})`;
             viewAllBtn.className = 'btn btn-primary mt-3';
 
-            // Create "Hide Results" button
-            const hideResultsBtn = document.createElement('button');
-            hideResultsBtn.textContent = 'Hide Results';
-            hideResultsBtn.className = 'btn btn-secondary mt-3';
-            hideResultsBtn.style.display = 'none';
-
             // Show full results on clicking "View Results"
             viewAllBtn.onclick = function () {
                 resultContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
                 this.style.display = 'none';
-                hideResultsBtn.style.display = 'inline-block';
             };
 
-            // Hide full results and revert to limited view on clicking "Hide Results"
-            hideResultsBtn.onclick = function () {
-                resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
-                this.style.display = 'none';
-                viewAllBtn.style.display = 'inline-block';
-            };
-
-            // Append buttons to result content
+            // Append button to result content
             resultContent.appendChild(viewAllBtn);
-            resultContent.appendChild(hideResultsBtn);
         }
 
         createChartsWork(data);
@@ -657,11 +686,10 @@ document.getElementById('scrape-work').addEventListener('click', function () {
         document.getElementById('saveCsvWork').addEventListener('click', function() {
             saveToCsvWork(data);
         });
-
     })
     .catch(error => {
         document.getElementById('loading-work').style.display = 'none';
-        document.getElementById('result-content-work').innerHTML = '<p style="color:red;">Error occurred while scraping data.</p>';
+        document.getElementById('result-content-work').innerHTML = '<p style="color:red;">Error occurred while scraping data (You may try refresh the page and start again).</p>';
     });
 });
     
@@ -674,8 +702,21 @@ document.getElementById('scrape-work').addEventListener('click', function () {
     
     
     <!-- ################################# LinkedIn functionality ################################# -->
+
+function preprocessDataForLinkedInCharts(data) {
+    return data.map(job => ({
+        ...job,
+        salary: job.salary === "" ? null : parseInt(job.salary),
+        years_of_experience: job.years_of_experience === "" ? null : parseInt(job.years_of_experience),
+        technologies: job.technologies === "" ? [] : JSON.parse(job.technologies),
+        date_posted: job.date_posted === "" ? null : new Date(job.date_posted)
+    }));
+}
+    
+    
 // Function to create charts
-function createChartsLinkedIn(data) {
+function createChartsLinkedIn(rawData) {
+    const data = preprocessDataForWorkCharts(rawData);
     const seniorityCounts = {};
     const techCounts = {};
     const companyData = {};
@@ -757,12 +798,30 @@ function createBarChartLinkedIn(canvasId, label, labels, data, backgroundColor, 
 
 function saveToCsvLinkedIn(data) {
     let csvContent = "data:text/csv;charset=utf-8,";
-    csvContent += "Title,Company,Location,Seniority,Salary,Technologies,Source\n";
+    csvContent += "Title,Company,Location,Years_of_experience,Salary,Seniority_level,English_level,Technologies,Date_Posted,Source\n";
 
     data.forEach(job => {
-        const technologies = job.technologies.join('; ');
-        const row = `${job.title},${job.company},${job.location},${job.seniority_level},${job.salary || ''},${technologies},${job.source}`;
-        csvContent += row + "\n";
+        const technologies = Array.isArray(job.technologies) ? 
+            JSON.stringify(job.technologies).replace(/,/g, ';') : 
+            job.technologies;
+        
+        const row = [
+            job.title,
+            job.company,
+            job.location,
+            job.years_of_experience,
+            job.salary,
+            job.seniority_level,
+            job.english_level,
+            technologies,
+            job.date_posted,
+            job.source
+        ].map(item => {
+            if (item === null || item === undefined) return '';
+            return item.toString().replace(/,/g, ';');
+        });
+        
+        csvContent += row.join(',') + "\n";
     });
 
     const encodedUri = encodeURI(csvContent);
@@ -797,29 +856,14 @@ document.getElementById('scrape-linkedin').addEventListener('click', function ()
             viewAllBtn.textContent = `View Results (${data.length - limit})`;
             viewAllBtn.className = 'btn btn-primary mt-3';
 
-            // Create "Hide Results" button
-            const hideResultsBtn = document.createElement('button');
-            hideResultsBtn.textContent = 'Hide Results';
-            hideResultsBtn.className = 'btn btn-secondary mt-3';
-            hideResultsBtn.style.display = 'none';
-
             // Show full results on clicking "View Results"
             viewAllBtn.onclick = function () {
                 resultContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
                 this.style.display = 'none';
-                hideResultsBtn.style.display = 'inline-block';
-            };
-
-            // Hide full results and revert to limited view on clicking "Hide Results"
-            hideResultsBtn.onclick = function () {
-                resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
-                this.style.display = 'none';
-                viewAllBtn.style.display = 'inline-block';
             };
 
             // Append buttons to result content
             resultContent.appendChild(viewAllBtn);
-            resultContent.appendChild(hideResultsBtn);
         }
 
         createChartsLinkedIn(data);
@@ -832,7 +876,7 @@ document.getElementById('scrape-linkedin').addEventListener('click', function ()
     })
     .catch(error => {
         document.getElementById('loading-linkedin').style.display = 'none';
-        document.getElementById('result-content-linkedin').innerHTML = '<p style="color:red;">Error occurred while scraping data.</p>';
+        document.getElementById('result-content-linkedin').innerHTML = '<p style="color:red;">Error occurred while scraping data (You may try refresh the page and start again).</p>';
     });
 });
     

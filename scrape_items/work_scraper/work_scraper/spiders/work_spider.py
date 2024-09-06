@@ -1,11 +1,9 @@
-import os
+import json
 import random
 import re
-from typing import Any
-from decimal import Decimal
-from datetime import datetime, date
 
-import django
+from datetime import datetime
+
 import scrapy
 from scrapy.http.response import Response
 from selenium import webdriver
@@ -53,13 +51,27 @@ class WorkSpider(scrapy.Spider):
             "english_level": self.parse_eng_lvl(response=response),
             "technologies": self.parse_technologies(response=response),
             "date_posted": self.parse_date_posted(response=response),
-            "source": response.url
+            "source": "work.ua"
         }
-        yield data
+        yield self.format_data(data)
+
+    def format_data(self, data: dict) -> dict:
+        for key, value in data.items():
+            if value is None:
+                data[key] = ""
+
+            if isinstance(value, list):
+                data[key] = json.dumps(value)
+
+        return data
 
     def parse_title(self, response: Response) -> str | None:
         text = response.css("h1#h1-name::text").getall()
         title = " ".join([t.strip() for t in text])
+
+        if "," in title:
+            return title.replace(",", ";").strip()
+
         return title.strip() if title else None
 
     def parse_company(self, response: Response) -> str | None:
@@ -68,7 +80,10 @@ class WorkSpider(scrapy.Spider):
         for li in company_li:
             if li.css("span.glyphicon-company"):
                 company = li.css("span.strong-500::text").get()
-                return company.strip() if company and "грн" not in company else ""
+
+                if "," in company:
+                    return company.split(",")[0].strip()
+                return company.strip() if company and "грн" not in company else None
 
         return None
 
@@ -94,28 +109,26 @@ class WorkSpider(scrapy.Spider):
 
         return None
 
-    def parse_salary(self, response: Response) -> Decimal | None:
+    def parse_salary(self, response: Response) -> int | None:
         salary_li = response.css("li")
         for li in salary_li:
             if li.css("span.glyphicon-hryvnia"):
                 salary = response.css("span.strong-500::text").get().replace("&thinsp;", " ")
                 match = re.search(r'\d+', salary)
                 if match:
-                    return Decimal(match.group(0))
+                    return int(match.group(0))
 
         return None
 
-    def parse_date_posted(self, response) -> date | None:
+    def parse_date_posted(self, response) -> datetime | None:
         date_posted = response.css("time::attr(datetime)").get()
 
         if date_posted:
             try:
                 date_str = date_posted.strip()[:10]
-                date_object = datetime.strptime(date_str, "%Y-%m-%d")
-                return date_object.date()
+                return datetime.strptime(date_str, "%Y-%m-%d")
             except ValueError:
                 return None
-
         return None
 
     def parse_seniority_level(self, response: Response) -> str | None:
@@ -159,12 +172,8 @@ class WorkSpider(scrapy.Spider):
 
     def parse_technologies(self, response: Response) -> list[str]:
         job_description = response.css("#job-description *::text").getall()
-        text = " ".join(job_description).strip()
+        text = " ".join(job_description).lower().strip()
 
-        technologies = []
+        found_technologies = [tech for tech in TECHNOLOGIES if tech.lower() in text]
 
-        for tech in TECHNOLOGIES:
-            if tech.lower() in text.lower():
-                technologies.append(tech)
-
-        return technologies
+        return found_technologies
