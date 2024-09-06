@@ -1,0 +1,35 @@
+Title,Company,Location,Years_of_experience,Salary_₴K,Seniority_level,English_level,Technologies,Date_Posted,Source
+Python developer,Udata,Київ,1,20,,Intermediate,["Django"; "Flask"; "FastAPI"; "Docker"; "Docker Compose"; "Git"; "Selenium"; "Requests"],2024-09-05T00:00:00,work.ua
+Python Developer,PNN Soft,Київ,1,,,Intermediate,["PostgreSQL"; "MySQL"; "MongoDB"; "AWS"; "RDS"; "Docker"; "Git"; "React"],2024-09-05T00:00:00,work.ua
+PHP; Python Developer,Treeum,Remote,1,,,,["Docker"; "Selenium"; "Kafka"],2024-09-06T00:00:00,work.ua
+Викладач JS; CSS; HTML; Python; Unity (програмування для дітей),Romstal Лiвобережний,Київ,,,,,["React"],2024-09-02T00:00:00,work.ua
+Викладач JS; CSS; HTML; Python; Unity (програмування для дітей),SitePro,Київ,,10,,,["React"],2024-09-02T00:00:00,work.ua
+Junior Python developer (cloud backend),Codeavors,Remote,2,18,Junior,Intermediate,["MongoDB"; "Redis"; "Git"; "Angular"],2024-09-01T00:00:00,work.ua
+Викладач у дитячу IT-школу програмування (геймдизайн; Scratch; Python; комп'ютерна грамотність),Logika,Ірпінь,,14,,,["JavaScript"; "HTML"; "CSS"],2024-09-02T00:00:00,work.ua
+Викладач у дитячу IT-школу програмування (Scratch; Python; Комп'ютерна грамотність)),Logika,Миронівка,,6,,,[],2024-08-28T00:00:00,work.ua
+Python Web Developer,Клинико-Терапевтический институт,Remote,,20,,,["Django"; "Flask"; "FastAPI"; "PostgreSQL"; "MongoDB"; "Redis"; "Docker"; "Git"; "REST"],2024-09-03T00:00:00,work.ua
+Python developer (IRC224147),GlobalLogic Ukraine,Remote,5,,Intern,,["RDS"; "Git"],2024-09-04T00:00:00,work.ua
+Middle Python Developer,Comparus UA (Компарус.ЮА,Дніпро,5,,,Intermediate,["Redis"; "Docker"; "OpenShift"; "REST"; "Kafka"],2024-09-03T00:00:00,work.ua
+Викладач у дитячу ІТ-школу програмування (Scratch; Python; геймдизайн),Logika,Червоноград,,4,,,[],2024-09-03T00:00:00,work.ua
+Python Developer (Data Engineering for Financial project),AGU,Remote,2,80,,,[],2024-09-03T00:00:00,work.ua
+Викладач програмування (Scratch; Python),Logika,Київ,1,12,,,[],2024-08-12T00:00:00,work.ua
+Python Backend developer,Benning,Remote,2,20,Intern,,["Django"; "PostgreSQL"; "MySQL"; "Redis"; "AWS"; "RDS"; "REST"; "asyncio"; "Celery"; "Kafka"],2024-08-13T00:00:00,work.ua
+Викладач програмування у дитячу школу (Python),Logika,Remote,1,10,,,["JavaScript"; "HTML"; "CSS"],2024-08-12T00:00:00,work.ua
+Intern Python; JavaScript; UX/UI; QA Developer,SpecInterns,Remote,,,Intern,,["Django"; "Flask"; "FastAPI"; "REST"; "PyTest"; "Unittest"; "Selenium"; "JavaScript"; "Requests"],2024-09-02T00:00:00,work.ua
+Викладач програмування у IT-школу (Python; Game design),Logika,Сміла,,6,,,[],2024-08-13T00:00:00,work.ua
+Python-програміст,Logic Stream,Київ,,27,,,[],2024-08-12T00:00:00,work.ua
+Python developer (Trainee; Junior),Appexoft,Львів,,,,,["Django"; "PostgreSQL"; "MySQL"; "Git"; "REST"],2024-08-16T00:00:00,work.ua
+Викладач в всеукраїнську школу програмування (КГ; Scratch; Roblox; Front-end; Python),Logika,Вишгород,,12,,,["JavaScript"; "HTML"; "CSS"],2024-08-22T00:00:00,work.ua
+Python developer,Quintagroup,Remote,1,,,Upper-intermediate,["Django"; "Flask"; "AWS"; "Git"; "REST"],2024-08-18T00:00:00,work.ua
+Викладач програмування для дітей (Scratch; Roblox; Python Minecraft),Paradigm School,Remote,,13,,,[],2024-08-19T00:00:00,work.ua
+Викладач IT (Python),Step,Калуш,1,,,,[],2024-08-23T00:00:00,work.ua
+Junior; Middle Python Developer,Інсайдери,Львів,,,,,["Django"; "PostgreSQL"; "MySQL"; "Git"],2024-08-23T00:00:00,work.ua
+Python-програміст,ForceService,Remote,1,20,,,["Flask"; "FastAPI"; "PostgreSQL"; "MySQL"; "SQLite"; "MongoDB"; "Selenium"; "aiohttp"; "Requests"],2024-08-23T00:00:00,work.ua
+Backend developer (Python; PHP),Zviger,Remote,2,,,,["Docker"; "Selenium"; "JavaScript"],2024-08-27T00:00:00,work.ua
+Full Stack Developer (Python),Dinamicka Development,Київ,5,,,Intermediate,["Django"; "PostgreSQL"; "MySQL"; "AWS"; "Docker"; "Kubernetes"; "JavaScript"; "React"; "Angular"; "HTML"; "CSS"],2024-08-26T00:00:00,work.ua
+Розробник Python,Stetsyuk Development,Remote,1,30,,Intermediate,[],2024-08-07T00:00:00,work.ua
+Middle Python developer,Avivi,Хмельницький,1,,,,["Django"; "Flask"; "FastAPI"; "Redis"; "AWS"; "Docker"; "Git"; "Celery"],2024-08-08T00:00:00,work.ua
+Senior Python Developer,Aesthetics360,Remote,5,360,Mid,Upper-intermediate,["FastAPI"; "PostgreSQL"; "AWS"; "EC2"; "S3"; "RDS"; "Lambda"; "Docker"; "Kubernetes"; "Jenkins"; "GitLab CI"; "GitHub Actions"; "Git"; "Terraform"; "pip"],2024-08-08T00:00:00,work.ua
+Senior Software Engineer (Python),Komet Studio,Remote,5,25,Intern,Advanced,["AWS"; "SciPy"; "OpenCV"],2024-08-11T00:00:00,work.ua
+Middle Odoo; Python Developer,CR&D,Remote,2,,,,["Git"; "JavaScript"],2024-08-12T00:00:00,work.ua
+Python developer,Idevone,Remote,1,15,,,["Django"; "Flask"],2024-08-07T00:00:00,work.ua

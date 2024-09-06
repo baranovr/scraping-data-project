@@ -1,0 +1,885 @@
+{% extends 'base.html' %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} blog-author bg-gray-100 {% endblock body_class %}
+
+{% block content %}
+
+  {% include "includes/navigation-light.html" %}
+    <style>
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+                </style>
+
+  <section class="py-sm-7 py-5 position-relative">
+    <div class="container">
+      <div class="row bg-white">
+        <div class="col-12 mx-auto">
+          <div class="row py-lg-7 py-5">
+            <div class="col-lg-3 col-md-5 position-relative my-auto">
+              <img class="img border-radius-lg max-width-200 w-100 position-relative z-index-2" src="static/assets/img/python.png">
+            </div>
+            <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mt-sm-0 mt-4">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="mb-0">Welcome to Tech Market Analysis</h4>
+              </div>
+              <p class="text-lg mb-0">
+                Stay ahead of the curve with our comprehensive Tech Market Analysis platform.
+                  This service provides you with up-to-date insights into the most demanded
+                  technologies in the tech job market, specifically tailored for Python developers.
+                  Whether you're a beginner or an experienced professional, understanding which
+                  technologies are currently in demand is crucial for advancing your career. <br>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <h3 class="mb-5">Features of Our Service:</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="javascript:;">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="static/assets/img/vacansy_listing.jpg">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">Vacancy Listings</a>
+              </h5>
+              <p>
+                Explore the latest Python developer job openings,
+                  complete with details on required technologies,
+                  company, location, and experience level.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="javascript:;">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="static/assets/img/tech_stats.png">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">Technology Statistics</a>
+              </h5>
+              <p>
+                Get a clear view of the most mentioned technologies across job postings.
+                  Our service aggregates and analyzes data to highlight the tools and
+                  frameworks that are most sought after by employers.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="javascript:;">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="static/assets/img/hist_data.jpg">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">Historical Data</a>
+              </h5>
+              <p>
+                Track trends over time.
+                  See how the popularity of different technologies has evolved,
+                  helping you identify emerging trends and shifts in the job market.
+              </p>
+            </div>
+          </div>
+        </div>
+          <div class="col-lg-3 col-sm-6">
+          <div class="card card-plain card-blog">
+            <div class="card-image border-radius-lg position-relative">
+              <a href="javascript:;">
+                <img class="w-100 border-radius-lg move-on-hover shadow" src="static/assets/img/reports.jpeg">
+              </a>
+            </div>
+            <div class="card-body px-0">
+              <h5>
+                <a href="javascript:;" class="text-dark font-weight-bold">Downloadable Reports</a>
+              </h5>
+              <p>
+                Export the data you need in CSV format for deeper analysis.
+                  Whether you're a researcher or just keen on data, our downloadable
+                  reports give you the flexibility to explore the information further.
+              </p>
+            </div>
+          </div>
+        </div>
+          <hr>
+          <div>
+              <h6>
+                  ⚠️ Please note that when scraping, information is collected only from available information,
+                  without prior registration on the services!⚠️
+              </h6>
+          </div>
+          <hr>
+
+
+
+
+
+           <!-- -----------------------New block for Djinni.co scraping----------------------- -->
+      <div class="row mt-5">
+        <div class="col-lg-12">
+          <div class="card card-plain bg-white" style="border: 1px solid black;">
+            <div class="card-body">
+              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Djinni.co</h5>
+              <p>Get the most recent job market data directly from Djinni.co. Click the button below to start scraping data on Python developer positions.</p>
+              <button id="scrape-djinni" class="btn btn-dark">Scrape Djinni</button>
+
+              <div id="scrape-results-djinni" class="mt-4" style="display:none;">
+                <h6>Scraping Results:</h6>
+                  <div class="row mt-3">
+                    <div class="col-lg-12">
+                        <button id="saveCsv" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
+                    </div>
+                  </div>
+                  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                  <div class="row mt-5">
+                    <div class="col-lg-6">
+                        <canvas id="popularityChart"></canvas>
+                    </div>
+                    <div class="col-lg-6">
+                        <canvas id="salaryChart"></canvas>
+                    </div>
+                  </div>
+                  <div class="row mt-5">
+                    <div class="col-lg-6">
+                        <canvas id="companyChart"></canvas>
+                    </div>
+                    <div class="col-lg-6">
+                        <canvas id="locationChart"></canvas>
+                    </div>
+                  </div>
+                <div id="loading" style="display:none;">
+                  <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
+                  <p style="color: red;
+                    font-family: 'Arial', sans-serif;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    animation: blink 1.5s infinite;"
+                    >Processing... Please wait
+                  </p>
+                </div>
+                <div id="result-content-djinni"></div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+         <!-- -----------------------New block for Work.ua scraping----------------------- -->
+      <div class="row mt-5">
+        <div class="col-lg-12">
+          <div class="card card-plain bg-white" style="border: 1px solid #3acaeb;">
+            <div class="card-body">
+              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from Work.ua</h5>
+                <p>Get the most recent job market data directly from Work.ua. Click the button below to start scraping data on Python developer positions.</p>
+                  <button id="scrape-work" class="btn btn-info">Scrape Work</button>
+
+                    <div id="scrape-results-work" class="mt-4" style="display:none;">
+                      <h6>Scraping Results:</h6>
+                        <div class="row mt-3">
+                          <div class="col-lg-12">
+                            <button id="saveCsvWork" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
+                          </div>
+                        </div>
+                        <div class="row mt-5">
+                          <div class="col-lg-6">
+                            <canvas id="popularityChartWork"></canvas>
+                          </div>
+                          <div class="col-lg-6">
+                            <canvas id="salaryChartWork"></canvas>
+                          </div>
+                        </div>
+                        <div class="row mt-5">
+                          <div class="col-lg-6">
+                            <canvas id="companyChartWork"></canvas>
+                          </div>
+                          <div class="col-lg-6">
+                            <canvas id="locationChartWork"></canvas>
+                          </div>
+                        </div>
+                        <div id="loading-work" style="display:none;">
+                          <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
+                          <p style="color: red; font-family: 'Arial', sans-serif;
+                            text-transform: uppercase;
+                            letter-spacing: 2px;
+                            animation: blink 1.5s infinite;"
+                            >Processing... Please wait
+                          </p>
+                        </div>
+                        <div id="result-content-work"></div>
+                    </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+
+
+          <!-- -----------------------New block for LinkedIn scraping----------------------- -->
+      <div class="row mt-5">
+        <div class="col-lg-12">
+          <div class="card card-plain bg-white" style="border: 1px solid blue;">
+            <div class="card-body">
+              <h5 class="text-dark font-weight-bold">Scrape Python Developer Positions from LinkedIn.com</h5>
+                <p>Get the most recent job market data directly from linkedin.com. Click the button below to start scraping data on Python developer positions.</p>
+                <p style="color: red; font-family: 'Times New Roman', Courier, monospace; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; animation: fadeIn 2s infinite;">
+                        Slow (due to API usage)
+                </p>  
+                <button id="scrape-linkedin" class="btn btn-outline-info">Scrape LinkedIn</button>
+                    <div id="scrape-results-linkedin" class="mt-4" style="display:none;">
+                      <h6>Scraping Results:</h6>
+                        <div class="row mt-3">
+                          <div class="col-lg-12">
+                            <button id="saveCsvLinkedIn" class="btn btn-secondary" style="display:none;">Save Results as CSV</button>
+                          </div>
+                        </div>
+                        <div class="row mt-5">
+                          <div class="col-lg-6">
+                            <canvas id="popularityChartLinkedIn"></canvas>
+                          </div>
+                          <div class="col-lg-6">
+                            <canvas id="seniorityChartLinkedIn"></canvas>
+                          </div>
+                        </div>
+                        <div class="row mt-5">
+                          <div class="col-lg-6">
+                            <canvas id="companyChartLinkedIn"></canvas>
+                          </div>
+                          <div class="col-lg-6">
+                            <canvas id="locationChartLinkedIn"></canvas>
+                          </div>
+                        </div>
+                        <div id="loading-linkedin" style="display:none;">
+                          <img src="static/assets/img/loading.gif" alt="Loading..." style="width: 150px;">
+                          <p style="color: red; font-family: 'Arial', sans-serif;
+                            text-transform: uppercase;
+                            letter-spacing: 2px;
+                            animation: blink 1.5s infinite;"
+                            >Processing... Please wait (may take 5+ minutes )
+                          </p>
+                        </div>
+                        <div id="result-content-linkedin"></div>
+                    </div>
+            </div>
+          </div>
+        </div>
+      </div>
+            
+         <button id="goToTopBtn" style="display:none;
+                          position:fixed;
+                          bottom:20px;
+                          right:20px;
+                          background-color:#007bff;
+                          color:white;
+                          border:none;
+                          padding:10px 15px;
+                          border-radius:5px;">Go to Top</button>     
+        </div>
+       </div>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="static/assets/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+
+    <script type="text/javascript">
+    
+    <!-- ################################# Djinni functionality ################################# -->
+    // Function to create charts for Djinni.co
+function preprocessDataForDjinniCharts(data) {
+    return data.map(job => ({
+        ...job,
+        salary: job.salary === "" ? null : parseInt(job.salary),
+        years_of_experience: job.years_of_experience === "" ? null : parseInt(job.years_of_experience),
+        technologies: job.technologies === "" ? [] : JSON.parse(job.technologies),
+        date_posted: job.date_posted === "" ? null : new Date(job.date_posted)
+    }));
+}
+    
+function createCharts(rawData) {
+    const data = preprocessDataForDjinniCharts(rawData)  
+    const techCounts = {};
+    const salaryByLocation = {};
+    const companyData = {};
+    const locationData = {};
+
+    data.forEach(job => {
+        // Technology counts
+        job.technologies.forEach(tech => {
+            techCounts[tech] = (techCounts[tech] || 0) + 1;
+        });
+
+        // Salary data by location
+        const location = job.location;
+        const salary = parseInt(job.salary);
+        if (location && !isNaN(salary)) {
+            if (salaryByLocation[location]) {
+                salaryByLocation[location].push(salary);
+            } else {
+                salaryByLocation[location] = [salary];
+            }
+        }
+
+        // Company data
+        companyData[job.company] = (companyData[job.company] || 0) + 1;
+
+        // Location data
+        locationData[job.location] = (locationData[job.location] || 0) + 1;
+    });
+
+    // Top 15 technologies
+    const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const techLabels = topTechs.map(item => item[0]);
+    const techValues = topTechs.map(item => item[1]);
+
+    // Salary data
+    const locationLabelsForSalary = Object.keys(salaryByLocation);
+    const salaryValues = locationLabelsForSalary.map(location => {
+        const salaries = salaryByLocation[location];
+        return salaries.reduce((a, b) => a + b, 0) / salaries.length;
+    });
+
+    // Top 10 companies
+    const topCompanies = Object.entries(companyData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const companyLabels = topCompanies.map(item => item[0]);
+    const companyValues = topCompanies.map(item => item[1]);
+
+    // Top 10 locations
+    const topLocations = Object.entries(locationData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const locationLabels = topLocations.map(item => item[0]);
+    const locationValues = topLocations.map(item => item[1]);
+
+    // Create charts
+    createBarChart('popularityChart', 'Top 15 Technologies', techLabels, techValues, 'rgba(54, 162, 235, 0.6)', 'rgba(54, 162, 235, 1)');
+    createBarChart('salaryChart', 'Average Salary by Location', locationLabelsForSalary, salaryValues, 'rgba(75, 192, 192, 0.6)', 'rgba(75, 192, 192, 1)');
+    createBarChart('companyChart', 'Top 10 Companies', companyLabels, companyValues, 'rgba(255, 99, 132, 0.6)', 'rgba(255, 99, 132, 1)');
+    createBarChart('locationChart', 'Top 10 Locations', locationLabels, locationValues, 'rgba(255, 206, 86, 0.6)', 'rgba(255, 206, 86, 1)');
+}
+
+function createBarChart(canvasId, label, labels, data, backgroundColor, borderColor) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            indexAxis: canvasId === 'popularityChart' ? 'y' : 'x',
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+// Function to save data to CSV
+function saveToCsv(data) {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Title,Company,Location,Years_of_experience,Salary_$,Seniority_level,English_level,Technologies,Date_Posted,Source\n";
+
+    data.forEach(job => {
+        const technologies = Array.isArray(job.technologies) ? 
+            JSON.stringify(job.technologies).replace(/,/g, ';') : 
+            job.technologies;
+        
+        const row = [
+            job.title,
+            job.company,
+            job.location,
+            job.years_of_experience,
+            job.salary,
+            job.seniority_level,
+            job.english_level,
+            technologies,
+            job.date_posted,
+            job.source
+        ].map(item => {
+            if (item === null || item === undefined) return '';
+            return item.toString().replace(/,/g, ';');
+        });
+        
+        csvContent += row.join(',') + "\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "djinni.csv");
+    document.body.appendChild(link);
+
+    link.click();
+    document.body.removeChild(link);
+}
+    document.getElementById('scrape-djinni').addEventListener('click', function () {
+    document.getElementById('scrape-results-djinni').style.display = 'block';
+    document.getElementById('loading').style.display = 'block';
+
+    fetch('{% url "scraping_data:scrape_djinni" %}', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('loading').style.display = 'none';
+
+        let resultContent = document.getElementById('result-content-djinni');
+        const limit = 0;
+        const limitedData = data.slice(0, limit);
+        resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+
+        if (data.length > limit) {
+            // Create "View Results" button
+            const viewAllBtn = document.createElement('button');
+            viewAllBtn.textContent = `View Results (${data.length - limit})`;
+            viewAllBtn.className = 'btn btn-primary mt-3';
+
+            // Show full results on clicking "View Results"
+            viewAllBtn.onclick = function () {
+                resultContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                this.style.display = 'none';
+            };
+
+            // Append button to result content
+            resultContent.appendChild(viewAllBtn);
+        }
+
+        createCharts(data);
+
+        document.getElementById('saveCsv').style.display = 'inline-block';
+        document.getElementById('saveCsv').addEventListener('click', function() {
+            saveToCsv(data);
+        });
+
+    })
+    .catch(error => {
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('result-content-djinni').innerHTML = '<p style="color:red;">Error occurred while scraping data (You may try refresh the page and start again).</p>';
+    });
+});
+
+
+
+
+
+    <!-- ################################# Work functionality ################################# -->
+function preprocessDataForWorkCharts(data) {
+    return data.map(job => ({
+        ...job,
+        salary: job.salary === "" ? null : parseInt(job.salary),
+        years_of_experience: job.years_of_experience === "" ? null : parseInt(job.years_of_experience),
+        technologies: job.technologies === "" ? [] : JSON.parse(job.technologies),
+        date_posted: job.date_posted === "" ? null : new Date(job.date_posted)
+    }));
+}
+
+// Function to create charts
+function createChartsWork(rawData) {
+    const data = preprocessDataForWorkCharts(rawData);
+    const techCounts = {};
+    const salaryByLocation = {};
+    const companyData = {};
+    const locationData = {};
+
+    data.forEach(job => {
+        // Technology counts
+        job.technologies.forEach(tech => {
+            techCounts[tech] = (techCounts[tech] || 0) + 1;
+        });
+
+        // Salary data by location
+        const location = job.location;
+        const salary = job.salary;
+        if (location && salary !== null) {
+            if (salaryByLocation[location]) {
+                salaryByLocation[location].push(salary);
+            } else {
+                salaryByLocation[location] = [salary];
+            }
+        }
+
+        // Company data
+        companyData[job.company] = (companyData[job.company] || 0) + 1;
+
+        // Location data
+        locationData[job.location] = (locationData[job.location] || 0) + 1;
+    });
+
+    // Top 15 technologies
+    const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const techLabels = topTechs.map(item => item[0]);
+    const techValues = topTechs.map(item => item[1]);
+
+    // Salary data
+    const locationLabelsForSalary = Object.keys(salaryByLocation);
+    const salaryValues = locationLabelsForSalary.map(location => {
+        const salaries = salaryByLocation[location];
+        return salaries.reduce((a, b) => a + b, 0) / salaries.length;
+    });
+
+    // Top 10 companies
+    const topCompanies = Object.entries(companyData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const companyLabels = topCompanies.map(item => item[0]);
+    const companyValues = topCompanies.map(item => item[1]);
+
+    // Top 10 locations
+    const topLocations = Object.entries(locationData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const locationLabels = topLocations.map(item => item[0]);
+    const locationValues = topLocations.map(item => item[1]);
+
+    // Create charts
+    createBarChartWork('popularityChartWork', 'Top 15 Technologies', techLabels, techValues, 'rgba(54, 162, 235, 0.6)', 'rgba(54, 162, 235, 1)');
+    createBarChartWork('salaryChartWork', 'Average Salary(₴K) by Location', locationLabelsForSalary, salaryValues, 'rgba(75, 192, 192, 0.6)', 'rgba(75, 192, 192, 1)');
+    createBarChartWork('companyChartWork', 'Top 10 Companies', companyLabels, companyValues, 'rgba(255, 99, 132, 0.6)', 'rgba(255, 99, 132, 1)');
+    createBarChartWork('locationChartWork', 'Top 10 Locations', locationLabels, locationValues, 'rgba(255, 206, 86, 0.6)', 'rgba(255, 206, 86, 1)');
+}
+
+function createBarChartWork(canvasId, label, labels, data, backgroundColor, borderColor) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            indexAxis: canvasId === 'popularityChartWork' ? 'y' : 'x',
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+// Function to save data to CSV
+function saveToCsvWork(data) {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Title,Company,Location,Years_of_experience,Salary_₴K,Seniority_level,English_level,Technologies,Date_Posted,Source\n";
+
+    data.forEach(job => {
+        const technologies = Array.isArray(job.technologies) ? 
+            JSON.stringify(job.technologies).replace(/,/g, ';') : 
+            job.technologies;
+        
+        const row = [
+            job.title,
+            job.company,
+            job.location,
+            job.years_of_experience,
+            job.salary,
+            job.seniority_level,
+            job.english_level,
+            technologies,
+            job.date_posted,
+            job.source
+        ].map(item => {
+            if (item === null || item === undefined) return '';
+            return item.toString().replace(/,/g, ';');
+        });
+        
+        csvContent += row.join(',') + "\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "work_ua.csv");
+    document.body.appendChild(link);
+
+    link.click();
+    document.body.removeChild(link);
+}
+
+document.getElementById('scrape-work').addEventListener('click', function () {
+    document.getElementById('scrape-results-work').style.display = 'block';
+    document.getElementById('loading-work').style.display = 'block';
+
+    fetch('{% url "scraping_data:scrape_work" %}', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('loading-work').style.display = 'none';
+
+        let resultContent = document.getElementById('result-content-work');
+        const limit = 0;
+        const limitedData = data.slice(0, limit);
+        resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+
+        if (data.length > limit) {
+            // Create "View Results" button
+            const viewAllBtn = document.createElement('button');
+            viewAllBtn.textContent = `View Results (${data.length - limit})`;
+            viewAllBtn.className = 'btn btn-primary mt-3';
+
+            // Show full results on clicking "View Results"
+            viewAllBtn.onclick = function () {
+                resultContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                this.style.display = 'none';
+            };
+
+            // Append button to result content
+            resultContent.appendChild(viewAllBtn);
+        }
+
+        createChartsWork(data);
+
+        document.getElementById('saveCsvWork').style.display = 'inline-block';
+        document.getElementById('saveCsvWork').addEventListener('click', function() {
+            saveToCsvWork(data);
+        });
+    })
+    .catch(error => {
+        document.getElementById('loading-work').style.display = 'none';
+        document.getElementById('result-content-work').innerHTML = '<p style="color:red;">Error occurred while scraping data (You may try refresh the page and start again).</p>';
+    });
+});
+    
+
+    
+    
+    
+    
+    
+    
+    
+    <!-- ################################# LinkedIn functionality ################################# -->
+
+function preprocessDataForLinkedInCharts(data) {
+    return data.map(job => ({
+        ...job,
+        salary: job.salary === "" ? null : parseInt(job.salary),
+        years_of_experience: job.years_of_experience === "" ? null : parseInt(job.years_of_experience),
+        technologies: job.technologies === "" ? [] : JSON.parse(job.technologies),
+        date_posted: job.date_posted === "" ? null : new Date(job.date_posted)
+    }));
+}
+    
+    
+// Function to create charts
+function createChartsLinkedIn(rawData) {
+    const data = preprocessDataForWorkCharts(rawData);
+    const seniorityCounts = {};
+    const techCounts = {};
+    const companyData = {};
+    const locationData = {};
+
+    data.forEach(job => {
+        // Seniority level counts
+        const seniority = job.seniority_level;
+        seniorityCounts[seniority] = (seniorityCounts[seniority] || 0) + 1;
+
+        // Technology counts
+        job.technologies.forEach(tech => {
+            techCounts[tech] = (techCounts[tech] || 0) + 1;
+        });
+
+        // Company data
+        companyData[job.company] = (companyData[job.company] || 0) + 1;
+
+        // Location data
+        locationData[job.location] = (locationData[job.location] || 0) + 1;
+    });
+
+    // Top 5 seniority levels
+    const topSeniorityLevels = Object.entries(seniorityCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
+    const seniorityLabels = topSeniorityLevels.map(item => item[0]);
+    const seniorityValues = topSeniorityLevels.map(item => item[1]);
+
+    // Top 15 technologies
+    const topTechs = Object.entries(techCounts).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const techLabels = topTechs.map(item => item[0]);
+    const techValues = topTechs.map(item => item[1]);
+
+    // Top 10 companies
+    const topCompanies = Object.entries(companyData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const companyLabels = topCompanies.map(item => item[0]);
+    const companyValues = topCompanies.map(item => item[1]);
+
+    // Top 10 locations
+    const topLocations = Object.entries(locationData).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    const locationLabels = topLocations.map(item => item[0]);
+    const locationValues = topLocations.map(item => item[1]);
+
+    // Create charts
+    createBarChartLinkedIn('seniorityChartLinkedIn', 'Top 5 Seniority Levels', seniorityLabels, seniorityValues, 'rgba(153, 102, 255, 0.6)', 'rgba(153, 102, 255, 1)');
+    createBarChartLinkedIn('popularityChartLinkedIn', 'Top 15 Technologies', techLabels, techValues, 'rgba(54, 162, 235, 0.6)', 'rgba(54, 162, 235, 1)');
+    createBarChartLinkedIn('companyChartLinkedIn', 'Top 10 Companies', companyLabels, companyValues, 'rgba(255, 99, 132, 0.6)', 'rgba(255, 99, 132, 1)');
+    createBarChartLinkedIn('locationChartLinkedIn', 'Top 10 Locations', locationLabels, locationValues, 'rgba(255, 206, 86, 0.6)', 'rgba(255, 206, 86, 1)');
+}
+
+function createBarChartLinkedIn(canvasId, label, labels, data, backgroundColor, borderColor) {
+    const ctx = document.getElementById(canvasId).getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: label,
+                data: data,
+                backgroundColor: backgroundColor,
+                borderColor: borderColor,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            indexAxis: canvasId === 'popularityChartLinkedIn' ? 'y' : 'x',
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+}
+
+function saveToCsvLinkedIn(data) {
+    let csvContent = "data:text/csv;charset=utf-8,";
+    csvContent += "Title,Company,Location,Years_of_experience,Salary,Seniority_level,English_level,Technologies,Date_Posted,Source\n";
+
+    data.forEach(job => {
+        const technologies = Array.isArray(job.technologies) ? 
+            JSON.stringify(job.technologies).replace(/,/g, ';') : 
+            job.technologies;
+        
+        const row = [
+            job.title,
+            job.company,
+            job.location,
+            job.years_of_experience,
+            job.salary,
+            job.seniority_level,
+            job.english_level,
+            technologies,
+            job.date_posted,
+            job.source
+        ].map(item => {
+            if (item === null || item === undefined) return '';
+            return item.toString().replace(/,/g, ';');
+        });
+        
+        csvContent += row.join(',') + "\n";
+    });
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "linkedin.csv");
+    document.body.appendChild(link);
+
+    link.click();
+    document.body.removeChild(link);
+}
+
+document.getElementById('scrape-linkedin').addEventListener('click', function () {
+    document.getElementById('scrape-results-linkedin').style.display = 'block';
+    document.getElementById('loading-linkedin').style.display = 'block';
+
+    fetch('{% url "scraping_data:scrape_linkedin" %}', {
+        method: 'GET'
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('loading-linkedin').style.display = 'none';
+
+        let resultContent = document.getElementById('result-content-linkedin');
+        const limit = 0;
+        const limitedData = data.slice(0, limit);
+        resultContent.innerHTML = `<pre>${JSON.stringify(limitedData, null, 2)}</pre>`;
+
+        if (data.length > limit) {
+            // Create "View Results" button
+            const viewAllBtn = document.createElement('button');
+            viewAllBtn.textContent = `View Results (${data.length - limit})`;
+            viewAllBtn.className = 'btn btn-primary mt-3';
+
+            // Show full results on clicking "View Results"
+            viewAllBtn.onclick = function () {
+                resultContent.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                this.style.display = 'none';
+            };
+
+            // Append buttons to result content
+            resultContent.appendChild(viewAllBtn);
+        }
+
+        createChartsLinkedIn(data);
+
+        document.getElementById('saveCsvLinkedIn').style.display = 'inline-block';
+        document.getElementById('saveCsvLinkedIn').addEventListener('click', function() {
+            saveToCsvLinkedIn(data);
+        });
+
+    })
+    .catch(error => {
+        document.getElementById('loading-linkedin').style.display = 'none';
+        document.getElementById('result-content-linkedin').innerHTML = '<p style="color:red;">Error occurred while scraping data (You may try refresh the page and start again).</p>';
+    });
+});
+    
+</script>
+
+{% endblock javascripts %}
