@@ -12,7 +12,6 @@ from scrape_items.linkedin_scraper.linkedin_scraper.spiders.linkedin_spider impo
 from scrape_items.work_scraper.work_scraper.spiders.work_spider import WorkSpider
 
 from scrapy.crawler import CrawlerProcess
-from scrapy.utils.project import get_project_settings
 from scrapy import signals
 from scrapy.signalmanager import dispatcher
 

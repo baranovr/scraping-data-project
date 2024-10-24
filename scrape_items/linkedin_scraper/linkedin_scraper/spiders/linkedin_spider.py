@@ -1,8 +1,6 @@
 import json
 import re
 
-from decimal import Decimal
-
 from datetime import datetime, date
 
 import scrapy
